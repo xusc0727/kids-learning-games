@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#e59a55" />
+    <meta name="description" content="带语音线索的20关儿童动物排序逻辑游戏" />
+    <title>动物排排队</title>
+    <link rel="stylesheet" href="lineup.css" />
+  </head>
+  <body>
+    <div class="parade-bg" aria-hidden="true"><i></i><i></i><i></i><span>✦</span><span>✦</span></div>
+    <main class="lineup-app">
+      <section id="lineupWelcome" class="lineup-screen welcome is-active" aria-labelledby="lineupTitle">
+        <a class="back-link" href="index.html">‹ 返回游戏乐园</a>
+        <div class="parade-preview" aria-hidden="true"><span>🐰</span><i>➜</i><span>🦊</span><i>➜</i><span>🐻</span></div>
+        <p class="kicker">听线索，找位置</p>
+        <h1 id="lineupTitle">动物<br /><em>排排队</em></h1>
+        <p class="intro">听清楚谁在左边、谁挨着谁，<br />帮助动物站到正确位置！</p>
+        <button id="lineupStart" class="primary-button" type="button"><span>从第1关开始</span><b>➜</b></button>
+        <button id="lineupChallengeStart" class="challenge-button" type="button"><b>进阶</b><span>直接玩第11～20关</span></button>
+        <button id="lineupSoundWelcome" class="quiet-button" type="button" aria-label="关闭声音">🔊 声音开着</button>
+      </section>
+
+      <section id="lineupGame" class="lineup-screen game" aria-labelledby="lineupTask">
+        <header class="game-header">
+          <button id="lineupHome" class="circle-button" type="button" aria-label="返回排队首页">⌂</button>
+          <div id="lineupProgress" class="progress" aria-label="关卡进度"></div>
+          <div class="animal-count" aria-label="本关动物数量"><span>♟</span><b id="animalCount">3只</b></div>
+          <button id="lineupSoundGame" class="circle-button" type="button" aria-label="关闭声音">🔊</button>
+        </header>
+
+        <section class="task-card">
+          <div class="guide" aria-hidden="true">🐦</div>
+          <div><p id="lineupLevelName">第1关 · 热身</p><h2 id="lineupTask">听线索，排好队伍</h2></div>
+          <button id="playAllClues" class="listen-all" type="button">🔊 重听全部</button>
+        </section>
+
+        <section class="clue-board" aria-labelledby="clueTitle">
+          <div class="clue-heading"><h3 id="clueTitle">线索卡</h3><span>点小喇叭可单独重听</span></div>
+          <div id="clueList" class="clue-list"></div>
+        </section>
+
+        <section class="queue-area" aria-label="动物排队区域">
+          <div class="queue-sign"><span>最左边</span><i>排队方向 ➜</i><span>最右边</span></div>
+          <div id="queueSlots" class="queue-slots"></div>
+        </section>
+
+        <p class="choose-label">点一只动物，再点它应该站的位置</p>
+        <div id="lineupTray" class="animal-tray" aria-label="等待排队的小动物"></div>
+        <div class="action-row">
+          <button id="resetLineup" class="soft-button" type="button">↻ 重新排列</button>
+          <button id="hintLineup" class="soft-button" type="button">💡 帮我一位</button>
+          <button id="checkLineup" class="check-button" type="button">检查队伍 ✓</button>
+        </div>
+        <div id="lineupFeedback" class="feedback" role="status" aria-live="polite">先听听线索，再开始排队吧！</div>
+
+        <div id="lineupOverlay" class="level-overlay" role="dialog" aria-modal="true" aria-labelledby="lineupResultTitle">
+          <div class="result-card">
+            <div class="result-stars" aria-hidden="true">✦　✦　✦</div>
+            <div id="resultAnimals" class="result-animals" aria-hidden="true"></div>
+            <h2 id="lineupResultTitle">队伍排好啦！</h2>
+            <p id="lineupResultText">每一条线索都满足了。</p>
+            <button id="lineupNext" class="primary-button" type="button"><span>下一关</span><b>➜</b></button>
+          </div>
+        </div>
+      </section>
+
+      <section id="lineupFinish" class="lineup-screen finish" aria-labelledby="lineupFinishTitle">
+        <p id="lineupFinishKicker" class="kicker">20关全部完成</p>
+        <h2 id="lineupFinishTitle">排队小队长！</h2>
+        <div class="finish-medal" aria-hidden="true">🎖️</div>
+        <p id="lineupFinishText">你听懂了所有线索，完成了20次排队！</p>
+        <div class="badge"><span>🐦</span><strong>森林线索达人</strong></div>
+        <button id="lineupAgain" class="primary-button" type="button"><span>再玩一次</span><b>↻</b></button>
+        <a class="finish-link" href="index.html">返回游戏乐园</a>
+      </section>
+    </main>
+    <script src="lineup.js"></script>
+  </body>
+</html>

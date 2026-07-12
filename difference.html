@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f0a96b" />
+    <meta name="description" content="适合儿童的20关找不同游戏，每关5处不同" />
+    <title>森林找不同</title>
+    <link rel="stylesheet" href="difference.css" />
+  </head>
+  <body>
+    <div class="paper-sky" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <main class="difference-app">
+      <section id="differenceWelcome" class="difference-screen welcome is-active" aria-labelledby="differenceTitle">
+        <a class="back-link" href="index.html">‹ 返回游戏首页</a>
+        <div class="magnifier" aria-hidden="true"><span>✦</span></div>
+        <p class="kicker">睁大眼睛仔细看</p>
+        <h1 id="differenceTitle">森林<br /><em>找不同</em></h1>
+        <p class="intro">20个丰富场景，每关藏着5处不同，<br />找到了就轻轻点一下！</p>
+        <div class="preview-pair" aria-hidden="true">
+          <div>🌳<b>🌼</b><span>🏠</span></div><i>VS</i><div>🌳<b>🌸</b><span>🏠</span></div>
+        </div>
+        <button id="differenceStart" class="primary-button" type="button"><span>从第1关开始</span><b>➜</b></button>
+        <button id="differenceNewStart" class="new-level-button" type="button"><b>NEW</b><span>直接玩第11～20关</span></button>
+        <button id="differenceSoundWelcome" class="quiet-button" type="button" aria-label="关闭声音">🔊 声音开着</button>
+      </section>
+
+      <section id="differenceGame" class="difference-screen game" aria-labelledby="differenceTask">
+        <header class="game-header">
+          <button id="differenceHome" class="circle-button" type="button" aria-label="返回找不同首页">⌂</button>
+          <div id="differenceProgress" class="progress" aria-label="关卡进度"></div>
+          <div class="found-counter" aria-label="已找到的不同"><span>◎</span><b id="foundCount">0 / 5</b></div>
+          <button id="differenceSoundGame" class="circle-button" type="button" aria-label="关闭声音">🔊</button>
+        </header>
+
+        <section class="task-card">
+          <div class="detective" aria-hidden="true">🦊</div>
+          <div><p id="differenceLevelName">第1关</p><h2 id="differenceTask">阳光农场</h2></div>
+          <button id="differenceHint" class="hint-button" type="button">💡 提示</button>
+        </section>
+
+        <p class="instruction">点击左图或右图里的不同位置</p>
+        <div class="scene-pair">
+          <figure><figcaption>图一</figcaption><div id="sceneLeft" class="scene-frame"></div></figure>
+          <figure><figcaption>图二</figcaption><div id="sceneRight" class="scene-frame"></div></figure>
+        </div>
+        <div id="differenceFeedback" class="feedback" role="status" aria-live="polite">5处不同都藏好啦！</div>
+
+        <div id="differenceOverlay" class="level-overlay" role="dialog" aria-modal="true" aria-labelledby="differenceResultTitle">
+          <div class="result-card">
+            <div class="result-stars" aria-hidden="true">✦　✦　✦</div>
+            <div class="result-icon" aria-hidden="true">🔎</div>
+            <h2 id="differenceResultTitle">全部找到了！</h2>
+            <p id="differenceResultText">你的眼睛真厉害，5处不同一个也没漏。</p>
+            <button id="differenceNext" class="primary-button" type="button"><span>下一关</span><b>➜</b></button>
+          </div>
+        </div>
+      </section>
+
+      <section id="differenceFinish" class="difference-screen finish" aria-labelledby="differenceFinishTitle">
+        <p id="differenceFinishKicker" class="kicker">20关全部完成</p>
+        <h2 id="differenceFinishTitle">观察小侦探！</h2>
+        <div class="finish-icon" aria-hidden="true">🏆</div>
+        <p id="differenceFinishText">你找到了100处不同，观察得又快又仔细！</p>
+        <div class="badge"><span>🦊</span><strong>金牌观察员</strong></div>
+        <button id="differenceAgain" class="primary-button" type="button"><span>再玩一次</span><b>↻</b></button>
+        <a class="finish-link" href="index.html">返回游戏首页</a>
+      </section>
+    </main>
+    <script src="difference.js"></script>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#7aa66d" />
+    <meta name="description" content="适合4岁儿童的20关4×4动物图形数独" />
+    <title>动物图形数独</title>
+    <link rel="stylesheet" href="sudoku.css?v=20260712-ipad5" />
+  </head>
+  <body>
+    <div class="forest-paper" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <main class="sudoku-app">
+      <section id="sudokuWelcome" class="sudoku-screen welcome is-active" aria-labelledby="sudokuTitle">
+        <a class="back-link" href="index.html">‹ 返回游戏乐园</a>
+        <div class="puzzle-mark" aria-hidden="true"><span>🐰</span><span>🐻</span><span>🦊</span><b>?</b></div>
+        <p class="kicker">动物们的座位谜题</p>
+        <h1 id="sudokuTitle">动物<br /><em>图形数独</em></h1>
+        <p class="intro">每行、每列和每个小区域里，<br />四只小动物都只能出现一次！</p>
+        <button id="sudokuStart" class="primary-button" type="button"><span>从第1关开始</span><b>➜</b></button>
+        <button id="sudokuChallengeStart" class="challenge-button" type="button"><b>进阶</b><span>直接玩第11～20关</span></button>
+        <button id="sudokuSoundWelcome" class="quiet-button" type="button" aria-label="关闭声音">🔊 声音开着</button>
+      </section>
+
+      <section id="sudokuGame" class="sudoku-screen game" aria-labelledby="sudokuTask">
+        <header class="game-header">
+          <button id="sudokuHome" class="circle-button" type="button" aria-label="返回数独首页">⌂</button>
+          <div id="sudokuProgress" class="progress" aria-label="关卡进度"></div>
+          <div class="remaining-chip" aria-label="剩余空格"><span>◇</span><b id="remainingCount">1格</b></div>
+          <button id="sudokuSoundGame" class="circle-button" type="button" aria-label="关闭声音">🔊</button>
+        </header>
+
+        <section class="task-card">
+          <div class="owl" aria-hidden="true">🦉</div>
+          <div><p id="sudokuLevelName">第1关 · 热身</p><h2 id="sudokuTask">帮动物坐到正确位置</h2></div>
+          <button id="sudokuHint" class="hint-button" type="button">💡 帮我一格</button>
+        </section>
+
+        <div class="rule-ribbon"><span>横排不重复</span><i>✦</i><span>竖排不重复</span><i>✦</i><span>小区域不重复</span></div>
+        <div id="sudokuBoard" class="sudoku-board" role="grid" aria-label="4乘4动物数独棋盘"></div>
+
+        <p class="choose-label">先点一个空格，再选择小动物</p>
+        <div id="animalTray" class="animal-tray" aria-label="可选择的小动物"></div>
+        <div id="sudokuFeedback" class="feedback" role="status" aria-live="polite">仔细看看哪只动物还没有出现。</div>
+
+        <div id="sudokuOverlay" class="level-overlay" role="dialog" aria-modal="true" aria-labelledby="sudokuResultTitle">
+          <div class="result-card">
+            <div class="result-stars" aria-hidden="true">✦　✦　✦</div>
+            <div class="result-grid" aria-hidden="true"><span>🐰</span><span>🐻</span><span>🦊</span><span>🐼</span></div>
+            <h2 id="sudokuResultTitle">全部坐对啦！</h2>
+            <p id="sudokuResultText">每一行、每一列都没有重复动物。</p>
+            <button id="sudokuNext" class="primary-button" type="button"><span>下一关</span><b>➜</b></button>
+          </div>
+        </div>
+      </section>
+
+      <section id="sudokuFinish" class="sudoku-screen finish" aria-labelledby="sudokuFinishTitle">
+        <p id="sudokuFinishKicker" class="kicker">20关全部完成</p>
+        <h2 id="sudokuFinishTitle">逻辑小博士！</h2>
+        <div class="finish-medal" aria-hidden="true">🎓</div>
+        <p id="sudokuFinishText">你解开了20个动物座位谜题！</p>
+        <div class="badge"><span>🦉</span><strong>森林逻辑达人</strong></div>
+        <button id="sudokuAgain" class="primary-button" type="button"><span>再玩一次</span><b>↻</b></button>
+        <a class="finish-link" href="index.html">返回游戏乐园</a>
+      </section>
+    </main>
+    <script src="sudoku.js"></script>
+  </body>
+</html>

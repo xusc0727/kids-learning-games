@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap');
+
+:root {
+  --forest: #315d43;
+  --forest-dark: #224533;
+  --leaf: #62995c;
+  --moss: #a7c978;
+  --paper: #fff7d6;
+  --gold: #f2bd43;
+  --orange: #de7142;
+  --ink: #354236;
+  --shadow: rgba(37, 65, 42, .2);
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 18%, rgba(255,255,255,.18) 0 3px, transparent 4px),
+    linear-gradient(#8fc5af 0 42%, #b9d48a 42% 100%);
+  font-family: "ZCOOL KuaiLe", "PingFang SC", sans-serif;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a { font: inherit; }
+button:focus-visible, a:focus-visible { outline: 5px solid rgba(255, 198, 68, .8); outline-offset: 3px; }
+
+.forest-backdrop { position: fixed; inset: auto 0 0; height: 31vh; display: flex; align-items: end; justify-content: space-around; overflow: hidden; pointer-events: none; opacity: .42; }
+.forest-backdrop span { font-size: clamp(90px, 22vw, 190px); margin: 0 -4vw -25px; filter: saturate(.75); }
+.forest-backdrop span:nth-child(even) { transform: scale(.75); }
+
+.maze-app { position: relative; z-index: 2; width: min(100%, 780px); min-height: 100dvh; margin: 0 auto; }
+.maze-screen { display: none; min-height: 100dvh; padding: 20px clamp(16px, 5vw, 38px); animation: enter .45s cubic-bezier(.2,.8,.2,1); }
+.maze-screen.is-active { display: flex; }
+
+.welcome { position: relative; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.back-link { position: absolute; top: 22px; left: 20px; padding: 8px 13px; color: #315e46; text-decoration: none; background: rgba(255,255,255,.56); border-radius: 18px; }
+.compass { position: relative; width: 92px; height: 92px; display: grid; place-items: center; border: 7px solid #f4e2aa; border-radius: 50%; color: #d95d3e; background: var(--paper); box-shadow: 0 8px 0 rgba(48,77,45,.13); transform: rotate(-10deg); }
+.compass::before { content: ""; position: absolute; width: 3px; height: 74px; background: #d7c78f; transform: rotate(45deg); }
+.compass i { position: absolute; top: 5px; font-style: normal; font-size: 21px; }.compass b { font-size: 31px; z-index: 1; }
+.kicker { margin: 14px 0 6px; color: #4b7853; letter-spacing: .16em; }
+.welcome h1 { margin: 0; font-family: "Ma Shan Zheng", cursive; font-size: clamp(58px, 15vw, 88px); line-height: .87; font-weight: 400; color: var(--forest-dark); text-shadow: 0 4px rgba(255,255,255,.65); }
+.welcome h1 em { color: var(--orange); font-style: normal; }
+.intro { margin: 17px 0 12px; font-size: clamp(18px, 4vw, 22px); line-height: 1.55; }
+.map-preview { position: relative; width: min(90%, 430px); height: 118px; margin: 5px 0 21px; border: 6px solid #f2dca0; border-radius: 30px 12px 30px 12px; background: #fff4c8; box-shadow: 0 9px 0 rgba(64,86,44,.13), 0 16px 30px var(--shadow); transform: rotate(-1deg); }
+.map-preview::before { content: ""; position: absolute; left: 16%; right: 14%; top: 51%; border-top: 5px dashed #d7a84a; transform: rotate(-3deg); }
+.map-preview span, .map-preview img { position: absolute; z-index: 1; font-size: 42px; }
+.preview-rabbit { left: 4%; top: 27px; }.preview-path { left: 23%; top: 34px; color: #c4973d; font-size: 28px !important; }.preview-key { right: 27%; top: 8px; transform: rotate(-12deg); }.preview-chest { right: 3%; top: 29px; }
+.map-preview .preview-chest { width: 64px; height: 58px; object-fit: contain; }
+.adventure-button { min-width: 226px; min-height: 64px; padding: 10px 13px 10px 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border: 0; border-radius: 40px; color: white; background: var(--orange); box-shadow: 0 8px 0 #ad4f31, 0 14px 25px var(--shadow); font-size: 23px; cursor: pointer; }
+.adventure-button b { display: grid; place-items: center; width: 43px; height: 43px; border-radius: 50%; color: var(--orange); background: white; }
+.adventure-button:active { transform: translateY(5px); box-shadow: 0 3px 0 #ad4f31, 0 7px 14px var(--shadow); }
+.stage-choices { display: flex; gap: 10px; margin-top: 18px; }
+.stage-choices button { min-width: 128px; padding: 8px 13px; display: flex; align-items: center; gap: 8px; border: 2px solid rgba(49,93,67,.16); border-radius: 20px; color: #3f6948; background: rgba(255,247,214,.76); box-shadow: 0 4px 0 rgba(55,79,49,.11); cursor: pointer; }
+.stage-choices button:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(55,79,49,.11); }
+.stage-choices b { color: var(--orange); font-size: 18px; }.stage-choices span { font-size: 14px; }
+.quiet-button { margin-top: 20px; border: 0; color: #47704e; background: transparent; cursor: pointer; }
+
+.game { position: relative; flex-direction: column; align-items: center; padding-top: 14px; }
+.maze-header { width: 100%; display: flex; align-items: center; gap: 10px; }
+.circle-button { flex: 0 0 43px; height: 43px; border: 2px solid rgba(46,69,42,.08); border-radius: 50%; background: rgba(255,251,226,.92); box-shadow: 0 4px 0 rgba(55,79,49,.12); font-size: 20px; cursor: pointer; }
+.maze-progress { flex: 1; display: flex; justify-content: center; gap: 4px; }
+.maze-progress i { width: clamp(8px, 1.6vw, 14px); height: 10px; border-radius: 10px; background: rgba(255,255,255,.55); }
+.maze-progress i.done { background: var(--gold); }.maze-progress i.current { background: var(--orange); transform: scaleY(1.25); }
+.step-chip { min-width: 60px; padding: 7px 9px; border-radius: 20px; background: var(--paper); box-shadow: 0 3px 0 rgba(55,79,49,.1); }
+
+.mission-strip { width: min(100%, 630px); margin: 15px 0 10px; padding: 10px 12px; display: flex; align-items: center; gap: 12px; border-radius: 22px; background: var(--paper); box-shadow: 0 6px 0 rgba(55,79,49,.11), 0 12px 22px var(--shadow); }
+.guide-avatar { flex: 0 0 52px; font-size: 42px; filter: drop-shadow(0 4px 2px rgba(40,50,30,.15)); }
+.mission-strip > div:nth-child(2) { flex: 1; }
+.mission-strip p { margin: 0 0 2px; color: #6c8a55; font-size: 13px; }
+.mission-strip h2 { margin: 0; font-size: clamp(18px, 4.4vw, 25px); line-height: 1.2; font-weight: 400; }
+.listen-button { flex: 0 0 44px; height: 44px; border: 0; border-radius: 15px; background: #ffe39a; font-size: 21px; cursor: pointer; }
+.goal-row { width: min(100%, 590px); display: flex; justify-content: center; gap: 8px; margin-bottom: 9px; }
+.goal-chip, .hint-button { min-height: 37px; padding: 5px 11px; display: flex; align-items: center; gap: 5px; border: 2px solid rgba(57,83,47,.08); border-radius: 18px; background: rgba(255,255,255,.78); }
+.goal-chip.done { background: #dff0bd; color: #3c723d; }.goal-chip span { font-size: 21px; }
+.goal-chip .sequence-item { opacity: .42; filter: grayscale(.65); transition: .25s; }
+.goal-chip .sequence-item.done { opacity: 1; filter: none; transform: scale(1.08); }
+.goal-chip .sequence-arrow { color: #9d8b5d; font-size: 13px; }
+.key-goal.is-hidden, .switch-goal.is-hidden { display: none; }
+.hint-button { margin-left: auto; color: #5a7045; cursor: pointer; }
+
+.maze-board { width: min(91vw, 570px); height: min(91vw, 570px); display: grid; grid-template-columns: repeat(var(--grid-size, 9), minmax(0, 1fr)); grid-template-rows: repeat(var(--grid-size, 9), minmax(0, 1fr)); gap: 3px; padding: 9px; border: 8px solid #765336; border-radius: 22px 9px 22px 9px; background: #94704b; box-shadow: 0 10px 0 #503d2e, 0 18px 30px rgba(37,57,36,.25); touch-action: none; }
+.tile { position: relative; display: grid; place-items: center; min-width: 0; border-radius: 8px; background: #d9c98b; box-shadow: inset 0 2px rgba(255,255,255,.23); overflow: visible; font-size: clamp(25px, 7vw, 51px); }
+.tile.path { background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.23) 0 2px, transparent 3px), #cfbe7f; }
+.tile.wall { background: #6f9655; box-shadow: inset 0 -5px #547b47; }
+.tile.wall::after { content: "🌲"; filter: drop-shadow(0 3px 1px rgba(30,50,28,.2)); transform: scale(1.05); }
+.tile.water { background: repeating-radial-gradient(ellipse at 20% 50%, #7fc3ca 0 3px, #acdce0 4px 8px); box-shadow: inset 0 0 0 2px #6aafb8; }
+.tile.gate { background: #b98a51; box-shadow: inset 0 0 0 3px #805b38; }
+.tile.gate.open { background: #cfbe7f; box-shadow: inset 0 0 0 3px #8eb26d; }
+.tile.switch { background: #d8d083; box-shadow: inset 0 0 0 3px #a89f52; }
+.tile.exit { background: #ead18a; box-shadow: inset 0 0 0 3px #d4aa4d; }
+.tile.exit.ready { animation: treasureGlow 1.2s ease-in-out infinite; }
+.tile .item { position: absolute; z-index: 2; filter: drop-shadow(0 4px 2px rgba(55,45,30,.2)); }
+.tile .maze-art { width: 78%; height: 78%; object-fit: contain; }
+.tile .player { position: absolute; z-index: 4; filter: drop-shadow(0 5px 2px rgba(55,45,30,.22)); animation: playerPop .25s ease-out; }
+.tile.hint-path { outline: 5px solid rgba(255,219,83,.9); outline-offset: -5px; animation: hintPulse .8s ease-in-out infinite; }
+.tile.bump { animation: tileBump .32s; }
+.maze-board[data-size="12"] { width: min(84vw, 520px); height: min(84vw, 520px); gap: 2px; padding: 6px; }
+.maze-board[data-size="12"] .tile { border-radius: 4px; font-size: clamp(18px, 4.5vw, 38px); }
+.maze-board[data-size="12"] ~ .controls { transform: scale(.84); transform-origin: top; margin-bottom: -22px; }
+
+.maze-feedback { min-height: 30px; margin: 13px 0 4px; padding: 5px 14px; border-radius: 18px; color: #365a3d; background: rgba(255,255,255,.58); text-align: center; }
+.maze-feedback.good { color: #27713c; background: #e5f4c9; }.maze-feedback.notice { color: #9b5c2f; background: #fff0bf; }
+.controls { width: 218px; display: grid; grid-template-columns: repeat(3, 66px); grid-template-rows: repeat(3, 61px); gap: 7px; grid-template-areas: ". up ." "left center right" ". down ."; margin: 3px 0 49px; }
+.move-button { border: 0; border-radius: 19px; color: white; background: var(--forest); box-shadow: 0 6px 0 var(--forest-dark); font-size: 28px; cursor: pointer; touch-action: manipulation; }
+.move-button:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--forest-dark); }
+.move-button.up { grid-area: up; }.move-button.left { grid-area: left; }.move-button.right { grid-area: right; }.move-button.down { grid-area: down; }
+.control-center { grid-area: center; display: grid; place-items: center; border-radius: 50%; color: #6e8b57; background: rgba(255,248,216,.72); font-size: 26px; }
+
+.level-overlay { position: fixed; z-index: 20; inset: 0; display: none; place-items: center; padding: 20px; background: rgba(28,56,39,.52); backdrop-filter: blur(6px); }
+.level-overlay.show { display: grid; animation: fadeIn .3s; }
+.result-card { width: min(92vw, 390px); padding: 25px 28px 30px; display: flex; flex-direction: column; align-items: center; border: 7px solid #f3d999; border-radius: 38px 16px 38px 16px; background: var(--paper); box-shadow: 0 18px 0 rgba(35,60,39,.16), 0 25px 55px rgba(30,45,32,.3); text-align: center; }
+.result-rays { color: var(--gold); font-size: 24px; }.open-chest { width: 106px; height: 88px; animation: chestOpen .6s cubic-bezier(.2,1.5,.4,1); }
+.open-chest img { width: 100%; height: 100%; object-fit: contain; }
+.result-card h2 { margin: 4px 0 7px; font-family: "Ma Shan Zheng", cursive; font-size: 46px; font-weight: 400; color: var(--orange); }
+.result-card p { margin: 0 0 20px; font-size: 18px; line-height: 1.4; }
+
+.finish { flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.finish h2 { margin: 0; font-family: "Ma Shan Zheng", cursive; font-size: clamp(50px, 13vw, 78px); font-weight: 400; color: var(--orange); text-shadow: 0 4px rgba(255,255,255,.65); }
+.finish-medal { margin: 8px; font-size: 100px; filter: drop-shadow(0 8px 2px rgba(45,60,35,.18)); animation: chestOpen .7s cubic-bezier(.2,1.5,.4,1); }
+.finish > p:not(.kicker) { max-width: 420px; font-size: 20px; line-height: 1.5; }
+.badge-card { margin: 5px 0 25px; padding: 12px 22px; display: flex; align-items: center; gap: 10px; border: 3px dashed #d2a747; border-radius: 23px; background: var(--paper); transform: rotate(-2deg); }
+.badge-card span { font-size: 52px; }.badge-card strong { font-size: 18px; font-weight: 400; }
+.finish-link { margin-top: 23px; color: #3f6b47; text-decoration: none; }
+
+@keyframes enter { from { opacity: 0; transform: translateY(12px); } }
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes playerPop { from { transform: scale(.55); } }
+@keyframes tileBump { 25% { transform: translateX(-5px); } 60% { transform: translateX(5px); } }
+@keyframes hintPulse { 50% { outline-color: rgba(255,219,83,.2); } }
+@keyframes treasureGlow { 50% { filter: brightness(1.2); box-shadow: inset 0 0 0 3px #f2b834, 0 0 18px #ffe477; } }
+@keyframes chestOpen { from { transform: scale(0) rotate(-20deg); } }
+
+@media (max-height: 820px) {
+  .maze-board { width: min(75vh, 91vw, 500px); height: min(75vh, 91vw, 500px); }
+  .mission-strip { margin-top: 10px; }
+  .controls { transform: scale(.88); transform-origin: top; margin-bottom: 5px; }
+}
+
+@media (max-width: 390px) {
+  .maze-screen { padding-left: 13px; padding-right: 13px; }
+  .maze-header { gap: 6px; }
+  .circle-button { flex-basis: 39px; height: 39px; }
+  .maze-progress { gap: 2px; }.maze-progress i { width: 7px; }
+  .mission-strip { border-radius: 18px; }.guide-avatar { flex-basis: 43px; font-size: 35px; }
+  .goal-chip, .hint-button { padding: 4px 8px; font-size: 13px; }
+  .goal-row { flex-wrap: wrap; }
+  .hint-button { margin-left: 0; }
+  .maze-board { gap: 2px; padding: 6px; border-width: 6px; }
+  .stage-choices { gap: 7px; }.stage-choices button { min-width: 116px; padding: 7px 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}

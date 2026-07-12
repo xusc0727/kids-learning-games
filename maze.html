@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#3f7550" />
+    <meta name="description" content="适合4岁儿童的方向认知与路线规划迷宫游戏" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>" />
+    <title>森林寻宝队</title>
+    <link rel="stylesheet" href="maze.css" />
+  </head>
+  <body>
+    <div class="forest-backdrop" aria-hidden="true">
+      <span>🌲</span><span>🌳</span><span>🌲</span><span>🌳</span><span>🌲</span>
+    </div>
+
+    <main class="maze-app">
+      <section id="mazeWelcome" class="maze-screen welcome is-active" aria-labelledby="mazeTitle">
+        <a class="back-link" href="index.html">‹ 返回游戏乐园</a>
+        <div class="compass" aria-hidden="true"><i>▲</i><b>✦</b></div>
+        <p class="kicker">小兔子的探险任务</p>
+        <h1 id="mazeTitle">森林<br /><em>寻宝队</em></h1>
+        <p class="intro">认一认方向，找一找路线，<br />收集食物后抵达宝箱！</p>
+        <div class="map-preview" aria-hidden="true">
+          <span class="preview-rabbit">🐰</span>
+          <span class="preview-path">· · · · ·</span>
+          <span class="preview-key">🔑</span>
+          <img class="preview-chest" src="assets/treasure-chest.svg" alt="" />
+        </div>
+        <button id="mazeStart" class="adventure-button" type="button"><span>从第1关开始</span><b>➜</b></button>
+        <div class="stage-choices" aria-label="选择迷宫难度">
+          <button type="button" data-start-level="5"><b>9×9</b><span>进阶迷宫</span></button>
+          <button type="button" data-start-level="10"><b>12×12</b><span>大迷宫挑战</span></button>
+        </div>
+        <button id="mazeSoundWelcome" class="quiet-button" type="button" aria-label="关闭声音">🔊 声音开着</button>
+      </section>
+
+      <section id="mazeGame" class="maze-screen game" aria-labelledby="mazeTask">
+        <header class="maze-header">
+          <button id="mazeHome" class="circle-button" type="button" aria-label="返回迷宫首页">⌂</button>
+          <div id="mazeProgress" class="maze-progress" aria-label="关卡进度"></div>
+          <div class="step-chip" aria-label="移动步数">👣 <b id="stepCount">0</b></div>
+          <button id="mazeSoundGame" class="circle-button" type="button" aria-label="关闭声音">🔊</button>
+        </header>
+
+        <section class="mission-strip">
+          <div class="guide-avatar" aria-hidden="true">🦉</div>
+          <div>
+            <p id="levelName">第1关 · 方向热身</p>
+            <h2 id="mazeTask">收集胡萝卜，再走到宝箱</h2>
+          </div>
+          <button id="repeatMazeTask" class="listen-button" type="button" aria-label="再听一次任务">🔊</button>
+        </section>
+
+        <div class="goal-row" aria-label="本关收集目标">
+          <div id="foodGoal" class="goal-chip"><span>🥕</span><b>0 / 1</b></div>
+          <div id="keyGoal" class="goal-chip key-goal"><span>🔑</span><b>不需要</b></div>
+          <div id="switchGoal" class="goal-chip switch-goal"><span>🪄</span><b>找机关</b></div>
+          <button id="hintButton" class="hint-button" type="button">💡 路口提示</button>
+        </div>
+
+        <div id="mazeBoard" class="maze-board" role="grid" aria-label="森林迷宫，可滑动控制方向"></div>
+        <div id="mazeFeedback" class="maze-feedback" role="status" aria-live="polite">帮助小兔子找到宝箱吧！</div>
+
+        <div class="controls" aria-label="方向控制">
+          <button class="move-button up" data-direction="up" type="button" aria-label="向上走">▲</button>
+          <button class="move-button left" data-direction="left" type="button" aria-label="向左走">◀</button>
+          <div class="control-center" aria-hidden="true">🐾</div>
+          <button class="move-button right" data-direction="right" type="button" aria-label="向右走">▶</button>
+          <button class="move-button down" data-direction="down" type="button" aria-label="向下走">▼</button>
+        </div>
+
+        <div id="levelOverlay" class="level-overlay" role="dialog" aria-modal="true" aria-labelledby="levelResultTitle">
+          <div class="result-card">
+            <div class="result-rays" aria-hidden="true">✦　✦　✦</div>
+            <div class="open-chest" aria-hidden="true"><img src="assets/treasure-chest.svg" alt="" /></div>
+            <h2 id="levelResultTitle">找到宝箱啦！</h2>
+            <p id="levelResultText">你认对了方向，完成了第1关。</p>
+            <button id="nextLevel" class="adventure-button" type="button"><span>下一关</span><b>➜</b></button>
+          </div>
+        </div>
+      </section>
+
+      <section id="mazeFinish" class="maze-screen finish" aria-labelledby="mazeFinishTitle">
+        <p class="kicker">森林探险完成</p>
+        <h2 id="mazeFinishTitle">寻宝小队长！</h2>
+        <div class="finish-medal" aria-hidden="true">🏅</div>
+        <p id="mazeSummary">你完成了15座迷宫，认识了方向，还找到了所有宝箱！</p>
+        <div class="badge-card"><span>🐰</span><strong>森林路线达人</strong></div>
+        <button id="mazeAgain" class="adventure-button" type="button"><span>再探险一次</span><b>↻</b></button>
+        <a class="finish-link" href="index.html">返回游戏乐园</a>
+      </section>
+    </main>
+
+    <script src="maze.js"></script>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f9d96f" />
+    <meta name="description" content="适合4岁儿童的颜色、形状与数量认知小游戏" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>" />
+    <title>小动物的彩虹餐厅</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="sky" aria-hidden="true">
+      <span class="cloud cloud-one"></span>
+      <span class="cloud cloud-two"></span>
+      <span class="leaf leaf-one">✦</span>
+      <span class="leaf leaf-two">✦</span>
+      <span class="leaf leaf-three">✦</span>
+    </div>
+
+    <main class="app-shell">
+      <section id="welcomeScreen" class="screen welcome-screen is-active" aria-labelledby="gameTitle">
+        <a class="hub-back" href="index.html">‹ 游戏乐园</a>
+        <div class="rainbow-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <p class="eyebrow">森林里的美味任务</p>
+        <h1 id="gameTitle">小动物的<br /><em>彩虹餐厅</em></h1>
+        <p class="welcome-copy">从热身到挑战，完成8个美味任务，<br />把正确的食物送进餐盘吧！</p>
+
+        <div class="welcome-characters" aria-hidden="true">
+          <div class="peek peek-rabbit">🐰</div>
+          <div class="welcome-table">
+            <span>🍓</span><span>🥕</span><span>🍌</span>
+          </div>
+          <div class="peek peek-bear">🐻</div>
+        </div>
+
+        <button id="startButton" class="primary-button" type="button">
+          <span>开始营业</span>
+          <b aria-hidden="true">▶</b>
+        </button>
+        <button id="soundButtonWelcome" class="sound-button" type="button" aria-label="关闭声音">🔊 声音开着</button>
+      </section>
+
+      <section id="gameScreen" class="screen game-screen" aria-labelledby="taskText">
+        <header class="game-header">
+          <button id="homeButton" class="round-button" type="button" aria-label="回到首页">⌂</button>
+          <div class="progress-wrap" aria-label="本轮进度">
+            <div id="progressDots" class="progress-dots"></div>
+          </div>
+          <div class="star-counter" aria-label="获得的星星"><span aria-hidden="true">★</span><b id="starCount">0</b></div>
+          <button id="soundButtonGame" class="round-button" type="button" aria-label="关闭声音">🔊</button>
+        </header>
+
+        <div class="order-card">
+          <button id="repeatButton" class="speaker-button" type="button" aria-label="再听一次任务">🔊</button>
+          <div class="order-copy">
+            <div class="order-meta">
+              <p id="customerName" class="customer-name">小兔子的点单</p>
+              <span id="levelBadge" class="level-badge">热身关</span>
+            </div>
+            <h2 id="taskText">请把红色的食物送给小兔子</h2>
+            <div id="patternDisplay" class="pattern-display" aria-label="食物规律"></div>
+          </div>
+        </div>
+
+        <div class="restaurant-scene">
+          <div class="awning" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <div id="customer" class="customer" aria-label="等待食物的小动物">
+            <span id="customerEmoji">🐰</span>
+            <div id="customerBubble" class="customer-bubble">好期待呀！</div>
+          </div>
+          <div class="counter-top">
+            <div id="plate" class="plate" aria-label="小动物的餐盘">
+              <span class="plate-shine"></span>
+              <span id="plateHint">放这里</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="helper-text"><span aria-hidden="true">☝</span> 点一下食物，或把它拖进餐盘</p>
+        <div id="foodTray" class="food-tray" aria-label="可以选择的食物"></div>
+        <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+      </section>
+
+      <section id="finishScreen" class="screen finish-screen" aria-labelledby="finishTitle">
+        <div class="confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="eyebrow">今日营业完成</p>
+        <h2 id="finishTitle">太棒啦！</h2>
+        <div class="big-star" aria-hidden="true">★</div>
+        <p id="finishSummary" class="finish-summary">你完成了8个任务，获得8颗彩虹星星！</p>
+        <div class="sticker-card">
+          <p>新贴纸</p>
+          <div id="stickerEmoji" class="sticker-emoji">🦊</div>
+          <strong id="stickerName">活力小狐狸</strong>
+        </div>
+        <button id="playAgainButton" class="primary-button" type="button"><span>再玩一轮</span><b aria-hidden="true">↻</b></button>
+        <button id="backHomeButton" class="text-button" type="button">回到餐厅首页</button>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
