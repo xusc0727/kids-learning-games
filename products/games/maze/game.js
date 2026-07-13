@@ -268,7 +268,7 @@ function renderBoard() {
     if (cell === "K") tile.innerHTML = '<span class="item">🔑</span>';
     if (cell === "S") tile.innerHTML = '<span class="item">🪄</span>';
     if (cell === "G") tile.innerHTML = `<span class="item">${mazeState.hasSwitch ? "✨" : "🚪"}</span>`;
-    if (cell === "E") tile.innerHTML = '<img class="item maze-art" src="assets/treasure-chest.svg" alt="" />';
+    if (cell === "E") tile.innerHTML = '<img class="item maze-art" src="../assets/treasure-chest.svg" alt="" />';
     if (rowIndex === mazeState.player.row && colIndex === mazeState.player.col) {
       tile.insertAdjacentHTML("beforeend", '<span class="player">🐰</span>');
     }

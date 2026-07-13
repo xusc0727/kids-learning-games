@@ -1,7 +1,7 @@
 const foods = [
   { id: "strawberry", name: "草莓", emoji: "🍓", color: "红色", shape: "圆圆的", category: "水果" },
   { id: "apple", name: "苹果", emoji: "🍎", color: "红色", shape: "圆圆的", category: "水果" },
-  { id: "watermelon", name: "西瓜", emoji: "🍉", icon: "assets/watermelon.svg", color: "绿色", shape: "椭圆形的", category: "水果" },
+  { id: "watermelon", name: "西瓜", emoji: "🍉", icon: "../assets/watermelon.svg", color: "绿色", shape: "椭圆形的", category: "水果" },
   { id: "banana", name: "香蕉", emoji: "🍌", color: "黄色", shape: "弯弯的", category: "水果" },
   { id: "lemon", name: "柠檬", emoji: "🍋", color: "黄色", shape: "圆圆的", category: "水果" },
   { id: "carrot", name: "胡萝卜", emoji: "🥕", color: "橙色", shape: "长长的", category: "蔬菜" },
@@ -12,7 +12,7 @@ const foods = [
   { id: "broccoli", name: "西兰花", emoji: "🥦", color: "绿色", shape: "胖胖的", category: "蔬菜" },
   { id: "eggplant", name: "茄子", emoji: "🍆", color: "紫色", shape: "长长的", category: "蔬菜" },
   { id: "cookie", name: "饼干", emoji: "🍪", color: "棕色", shape: "圆圆的", category: "点心" },
-  { id: "sandwich", name: "三明治", emoji: "🥪", icon: "assets/sandwich.svg", color: "黄色", shape: "三角形的", category: "点心" },
+  { id: "sandwich", name: "三明治", emoji: "🥪", icon: "../assets/sandwich.svg", color: "黄色", shape: "三角形的", category: "点心" },
 ];
 
 const customers = [

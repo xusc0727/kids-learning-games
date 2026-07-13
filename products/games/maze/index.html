@@ -7,7 +7,7 @@
     <meta name="description" content="适合4岁儿童的方向认知与路线规划迷宫游戏" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>" />
     <title>森林寻宝队</title>
-    <link rel="stylesheet" href="maze.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="forest-backdrop" aria-hidden="true">
@@ -16,7 +16,7 @@
 
     <main class="maze-app">
       <section id="mazeWelcome" class="maze-screen welcome is-active" aria-labelledby="mazeTitle">
-        <a class="back-link" href="index.html">‹ 返回游戏乐园</a>
+        <a class="back-link" href="../">‹ 返回游戏乐园</a>
         <div class="compass" aria-hidden="true"><i>▲</i><b>✦</b></div>
         <p class="kicker">小兔子的探险任务</p>
         <h1 id="mazeTitle">森林<br /><em>寻宝队</em></h1>
@@ -25,7 +25,7 @@
           <span class="preview-rabbit">🐰</span>
           <span class="preview-path">· · · · ·</span>
           <span class="preview-key">🔑</span>
-          <img class="preview-chest" src="assets/treasure-chest.svg" alt="" />
+          <img class="preview-chest" src="../assets/treasure-chest.svg" alt="" />
         </div>
         <button id="mazeStart" class="adventure-button" type="button"><span>从第1关开始</span><b>➜</b></button>
         <div class="stage-choices" aria-label="选择迷宫难度">
@@ -73,7 +73,7 @@
         <div id="levelOverlay" class="level-overlay" role="dialog" aria-modal="true" aria-labelledby="levelResultTitle">
           <div class="result-card">
             <div class="result-rays" aria-hidden="true">✦　✦　✦</div>
-            <div class="open-chest" aria-hidden="true"><img src="assets/treasure-chest.svg" alt="" /></div>
+            <div class="open-chest" aria-hidden="true"><img src="../assets/treasure-chest.svg" alt="" /></div>
             <h2 id="levelResultTitle">找到宝箱啦！</h2>
             <p id="levelResultText">你认对了方向，完成了第1关。</p>
             <button id="nextLevel" class="adventure-button" type="button"><span>下一关</span><b>➜</b></button>
@@ -88,10 +88,10 @@
         <p id="mazeSummary">你完成了15座迷宫，认识了方向，还找到了所有宝箱！</p>
         <div class="badge-card"><span>🐰</span><strong>森林路线达人</strong></div>
         <button id="mazeAgain" class="adventure-button" type="button"><span>再探险一次</span><b>↻</b></button>
-        <a class="finish-link" href="index.html">返回游戏乐园</a>
+        <a class="finish-link" href="../">返回游戏乐园</a>
       </section>
     </main>
 
-    <script src="maze.js"></script>
+    <script src="game.js"></script>
   </body>
 </html>
