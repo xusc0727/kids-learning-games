@@ -9,17 +9,19 @@
 | 模块 | 服务对象 | 当前状态 |
 | --- | --- | --- |
 | 童趣游戏乐园 | 儿童直接体验，家长陪伴 | 已上线 10 款学习游戏 |
-| AI 寓言故事工坊 | 家长操作，儿童收听与互动 | 方案设计阶段 |
+| 小小寓言屋 | 家长操作，儿童收听与互动 | 首版开发完成，等待配置 API Key |
 | 家庭成长工具 | 家长与儿童共同使用 | 待探索 |
 
 项目总规划见 [`docs/项目总览.md`](docs/项目总览.md)，AI 故事产品方案见 [`docs/产品规划/AI寓言故事工坊.md`](docs/产品规划/AI寓言故事工坊.md)。
 
-## 直接体验现有游戏
+## 本地运行
 
-双击根目录的 `index.html` 会自动进入游戏中心。推荐在项目目录启动本地服务器：
+固定故事和游戏可以作为静态页面访问；AI 生成需要使用项目自带的 Node 服务：
 
 ```bash
-python3 -m http.server 4173
+cp .env.example .env
+# 在 .env 中填写 DEEPSEEK_API_KEY
+npm start
 ```
 
 然后访问 `http://localhost:4173`。
@@ -43,7 +45,8 @@ python3 -m http.server 4173
 
 ```text
 .
-├── index.html                     # 平台入口，当前跳转到游戏中心
+├── index.html、site.css           # 游戏与故事的双产品平台入口
+├── package.json、server/          # 静态服务与 DeepSeek 生成接口
 ├── docs/                          # 跨产品规划与设计文档
 │   ├── 项目总览.md
 │   └── 产品规划/
@@ -57,14 +60,16 @@ python3 -m http.server 4173
     │       ├── index.html
     │       ├── styles.css         # 有独立样式时存在
     │       └── game.js
-    └── ai-story/                  # AI 寓言故事工坊
+    └── ai-story/                  # 小小寓言屋：页面、交互与25篇固定故事
 ```
 
 游戏模块已经完成目录迁移。新增游戏时必须使用独立目录，不再向仓库根目录堆放页面、样式和脚本。
 
 ## 技术现状
 
-- 当前形态：原生 HTML、CSS、JavaScript 静态网站
+- 当前形态：原生 HTML、CSS、JavaScript + 无第三方依赖的 Node 服务
+- AI 模型：DeepSeek 官方 `deepseek-v4-flash`
+- 密钥：仅存放在不会提交 Git 的根目录 `.env`
 - 生产环境：阿里云 ECS、Nginx、Let's Encrypt HTTPS
 - 当前 GitHub 仓库名与服务器目录仍沿用 `kids-learning-games`，不影响新的代码结构
 - 没有构建步骤或必须安装的第三方依赖

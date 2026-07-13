@@ -25,6 +25,9 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+.platform-home { display: inline-block; margin: 18px 0 6px; color: #755a45; font-size: 13px; font-weight: 700; text-decoration: none; }
+.platform-home:hover { color: #b9503c; }
+
 a { color: inherit; }
 a:focus-visible { outline: 6px solid rgba(229, 107, 65, .45); outline-offset: 5px; }
 
