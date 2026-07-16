@@ -6,10 +6,16 @@
   "scripts": {
     "start": "node server/server.mjs",
     "dev": "node --watch server/server.mjs",
+    "analytics": "node server/analytics-report.mjs",
+    "db:migrate": "node server/db/migrate.mjs",
+    "db:check": "node server/db/check.mjs",
     "test": "node --test",
     "check": "node --test"
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "mysql2": "3.14.1"
   }
 }

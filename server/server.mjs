@@ -3,6 +3,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { config, projectRoot } from "./config.mjs";
 import { generateStory } from "./deepseek.mjs";
+import { recordVisit, requestIp } from "./analytics.mjs";
+import { checkDatabase, closeDatabase } from "./database.mjs";
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -86,16 +88,26 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   try {
     if (req.method === "GET" && url.pathname === "/api/health") {
+      const database = await checkDatabase();
       json(res, 200, {
         ok: true,
         deepseekConfigured: Boolean(config.deepseekApiKey),
+        analyticsConfigured: config.analyticsConfigured,
+        database,
         model: config.deepseekModel,
       });
       return;
     }
 
+    if (req.method === "POST" && url.pathname === "/api/analytics/visit") {
+      const input = await readJsonBody(req);
+      const result = await recordVisit(req, input);
+      json(res, 202, result);
+      return;
+    }
+
     if (req.method === "POST" && url.pathname === "/api/stories/generate") {
-      const ip = req.socket.remoteAddress || "unknown";
+      const ip = requestIp(req);
       if (!checkRateLimit(ip)) {
         json(res, 429, { error: "生成得有点快，请稍后再试" });
         return;
@@ -122,4 +134,14 @@ const server = http.createServer(async (req, res) => {
 server.listen(config.port, "0.0.0.0", () => {
   console.log(`童趣成长乐园已启动：http://localhost:${config.port}`);
   console.log(`DeepSeek：${config.deepseekApiKey ? `${config.deepseekModel} 已配置` : "尚未配置 API Key"}`);
+  console.log(`访客统计：${config.analyticsConfigured ? `已启用，保留 ${config.analyticsRetentionDays} 天` : "尚未配置 ANALYTICS_SALT"}`);
+  console.log(`MySQL：${config.databaseConfigured ? `${config.databaseHost}:${config.databasePort}/${config.databaseName}` : "尚未启用"}`);
 });
+
+async function shutdown() {
+  await closeDatabase().catch(() => {});
+  server.close(() => process.exit(0));
+}
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);

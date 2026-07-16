@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6eedf" />
+    <title>访客统计说明｜童趣成长乐园</title>
+    <style>
+      :root{font-family:"Songti SC","Noto Serif SC",serif;color:#302a24;background:#f6eedf}*{box-sizing:border-box}body{margin:0}.page{width:min(760px,calc(100% - 32px));margin:50px auto 90px;background:#fffaf0;border:1px solid rgba(70,50,30,.16);border-radius:8px 24px 8px 24px;padding:clamp(28px,7vw,64px);box-shadow:0 24px 70px rgba(70,50,30,.12)}a{color:#a84938}h1{font-size:clamp(32px,6vw,52px);margin:20px 0}h2{margin-top:34px;font-size:20px}p,li{line-height:1.9;color:#665b51}.back{font-size:13px}.notice{padding:18px 20px;border-left:4px solid #bd5845;background:#f1e4ce}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.actions button{border:1px solid rgba(70,50,30,.22);background:transparent;padding:11px 16px;border-radius:4px 12px 4px 12px;cursor:pointer;font:inherit}.actions .allow{background:#302a24;color:#fff8e9}.status{margin-top:14px;font-size:13px;color:#a84938}
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <a class="back" href="/">← 返回童趣成长乐园</a>
+      <h1>访客统计说明</h1>
+      <p class="notice">统计只在成人访客明确同意后开始。拒绝统计不会影响游戏、固定故事或 AI 故事功能。</p>
+      <h2>为什么记录</h2>
+      <p>用于了解网站访问量、常用页面和设备适配情况，以便改进儿童内容和页面体验，不用于广告投放、儿童画像或向第三方出售数据。</p>
+      <h2>记录哪些信息</h2>
+      <ul><li>访问时间和页面路径；</li><li>来源网站的域名，不保存来源页面的完整地址；</li><li>设备大类、浏览器大类、操作系统、语言和屏幕尺寸分组；</li><li>当前标签页的随机会话编号；</li><li>由服务器将网络地址进行每日加密散列后得到的当日访客标识。</li></ul>
+      <h2>明确不记录</h2>
+      <p>不保存原始 IP，不收集姓名、电话号码、精确位置、通讯录或儿童身份，不做浏览器指纹识别，也不接入第三方统计平台。</p>
+      <h2>保存与保护</h2>
+      <p>数据只保存在童趣成长乐园自己的 MySQL 数据库；数据库暂时不可用时，会短暂降级到服务器本地日志。数据库和降级日志都默认保留 30 天后删除。每日访客标识每天都会变化，不能用于跨日持续追踪个人。</p>
+      <h2>选择统计偏好</h2>
+      <div class="actions"><button class="allow" id="allowAnalytics">同意匿名统计</button><button id="denyAnalytics">关闭匿名统计</button></div>
+      <p class="status" id="consentStatus"></p>
+    </main>
+    <script defer src="/analytics.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded",()=>{const status=document.querySelector("#consentStatus");const update=()=>{const value=globalThis.PlaymoriAnalytics?.consent();status.textContent=value==="granted"?"当前设置：已同意匿名统计":value==="denied"?"当前设置：已关闭匿名统计":"当前设置：尚未选择"};document.querySelector("#allowAnalytics").addEventListener("click",()=>{globalThis.PlaymoriAnalytics?.setConsent("granted");update()});document.querySelector("#denyAnalytics").addEventListener("click",()=>{globalThis.PlaymoriAnalytics?.setConsent("denied");update()});document.addEventListener("playmori:analytics-consent",update);setTimeout(update,0)});
+    </script>
+  </body>
+</html>

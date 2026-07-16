@@ -9,10 +9,10 @@
 | 模块 | 服务对象 | 当前状态 |
 | --- | --- | --- |
 | 童趣游戏乐园 | 儿童直接体验，家长陪伴 | 已上线 10 款学习游戏 |
-| 小小寓言屋 | 家长操作，儿童收听与互动 | 首版开发完成，等待配置 API Key |
+| 小小寓言屋 | 家长操作，儿童收听与互动 | 已上线，持续扩展数据能力 |
 | 家庭成长工具 | 家长与儿童共同使用 | 待探索 |
 
-项目总规划见 [`docs/项目总览.md`](docs/项目总览.md)，AI 故事产品方案见 [`docs/产品规划/AI寓言故事工坊.md`](docs/产品规划/AI寓言故事工坊.md)。
+项目总规划见 [`docs/项目总览.md`](docs/项目总览.md)，AI 故事产品方案见 [`docs/产品规划/AI寓言故事工坊.md`](docs/产品规划/AI寓言故事工坊.md)，完整数据库字典见 [`docs/数据库表结构.md`](docs/数据库表结构.md)。
 
 ## 本地运行
 
@@ -20,7 +20,10 @@
 
 ```bash
 cp .env.example .env
-# 在 .env 中填写 DEEPSEEK_API_KEY
+npm install
+# 在 .env 中填写 DeepSeek 和本地 MySQL 配置
+npm run db:migrate
+npm run db:check
 npm start
 ```
 
@@ -46,9 +49,11 @@ npm start
 ```text
 .
 ├── index.html、site.css           # 游戏与故事的双产品平台入口
-├── package.json、server/          # 静态服务与 DeepSeek 生成接口
+├── package.json、server/          # Node 服务、DeepSeek 与 MySQL 数据访问
+├── database/migrations/           # 可追踪的原生 SQL 迁移
 ├── docs/                          # 跨产品规划与设计文档
 │   ├── 项目总览.md
+│   ├── 数据库表结构.md
 │   └── 产品规划/
 └── products/                      # 独立产品模块
     ├── games/                     # 童趣游戏乐园
@@ -67,9 +72,49 @@ npm start
 
 ## 技术现状
 
-- 当前形态：原生 HTML、CSS、JavaScript + 无第三方依赖的 Node 服务
+- 当前形态：原生 HTML、CSS、JavaScript + Node 服务
+- 数据库：MySQL 8.0，使用 `mysql2` 连接池和原生 SQL 迁移，不使用 ORM
 - AI 模型：DeepSeek 官方 `deepseek-v4-flash`
 - 密钥：仅存放在不会提交 Git 的根目录 `.env`
+- 访客统计：MySQL 主存储，数据库异常时自动降级为本地日志
 - 生产环境：阿里云 ECS、Nginx、Let's Encrypt HTTPS
 - 当前 GitHub 仓库名与服务器目录仍沿用 `kids-learning-games`，不影响新的代码结构
-- 没有构建步骤或必须安装的第三方依赖
+- 没有前端构建步骤；运行前需要执行一次 `npm install`
+
+## MySQL 配置
+
+本地 MySQL 与阿里云 RDS 使用同一组环境变量，只需更换 `.env`：
+
+```text
+DB_ENABLED=true
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=playmori
+DB_USER=playmori
+DB_PASSWORD=<数据库密码>
+DB_CONNECTION_LIMIT=5
+DB_CONNECT_TIMEOUT=10000
+DB_SSL=false
+```
+
+正式 RDS 建议使用独立应用账号、内网地址和 ECS 白名单；如启用 TLS，可设置 `DB_SSL=true` 和 CA 文件路径。数据库结构通过 `database/migrations/` 管理：
+
+```bash
+npm run db:migrate
+npm run db:check
+```
+
+所有表、字段、索引和关系统一记录在 [`docs/数据库表结构.md`](docs/数据库表结构.md)。以后新增或修改表结构时，SQL 迁移和数据库字典必须在同一次提交中更新。
+
+## 访客统计
+
+统计需要在 `.env` 中配置至少 16 位的 `ANALYTICS_SALT` 才会启用。访客首次访问时可以选择同意或拒绝；拒绝不影响网站功能。
+
+记录内容限于访问时间、页面、来源域名、设备/浏览器/系统大类、语言、屏幕尺寸分组、会话编号和每日变化的 IP 散列值。数据优先写入 MySQL；连接失败时自动写入本地 JSONL，保证网站可用。原始 IP、完整来源地址和 URL 查询参数不会写入日志，数据默认保留 30 天。
+
+```bash
+npm run analytics -- --days=7
+npm run analytics -- --days=30
+```
+
+完整说明见 [`privacy.html`](privacy.html)。
