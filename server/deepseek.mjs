@@ -1,5 +1,6 @@
 import { config } from "./config.mjs";
 import { buildStoryMessages } from "./story-prompt.mjs";
+import crypto from "node:crypto";
 
 const VALID_DOMAINS = new Set(["health", "language", "social", "science", "art"]);
 const VALID_AGES = new Set(["3-4", "4-5", "5-6"]);
@@ -28,7 +29,9 @@ export function validateStoryInput(raw) {
   return input;
 }
 
-function normalizeStory(data) {
+const AGE_LABELS = { "3-4": "3～4岁", "4-5": "4～5岁", "5-6": "5～6岁" };
+
+function normalizeStory(data, input) {
   const story = Array.isArray(data?.story) ? data.story : [data?.story];
   const questions = Array.isArray(data?.questions) ? data.questions : [];
   if (!data?.title || story.filter(Boolean).length < 3 || questions.length < 2) {
@@ -36,10 +39,12 @@ function normalizeStory(data) {
   }
 
   return {
-    id: `ai-${Date.now()}`,
+    id: `ai-${crypto.randomUUID()}`,
     source: "ai",
     title: cleanText(data.title, 40),
-    domain: cleanText(data.domain, 8),
+    domain: input.domain,
+    age: AGE_LABELS[input.age],
+    duration: "约5分钟",
     learningGoal: cleanText(data.learningGoal, 100),
     summary: cleanText(data.summary, 100),
     story: story.filter(Boolean).slice(0, 12).map((item) => cleanText(item, 1200)),
@@ -86,7 +91,7 @@ export async function generateStory(rawInput) {
   if (!content) throw new Error("DeepSeek 没有返回故事内容");
 
   try {
-    return normalizeStory(JSON.parse(content));
+    return normalizeStory(JSON.parse(content), input);
   } catch (error) {
     if (error.message.includes("结构不完整")) throw error;
     throw new Error("模型返回内容无法解析，请重新生成");

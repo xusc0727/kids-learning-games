@@ -1,0 +1,36 @@
+export const LITERACY_CHARACTERS = [
+  { id: "nature-sun", character: "日", pinyin: "rì", word: "太阳", sentence: "太阳出来了，天亮啦。", hint: "“日”像一扇装着阳光的小窗。", theme: "nature", themeLabel: "自然朋友", icon: "☀️", difficulty: 1 },
+  { id: "nature-moon", character: "月", pinyin: "yuè", word: "月亮", sentence: "弯弯的月亮挂在天上。", hint: "“月”的外面弯弯的，像月亮的小船。", theme: "nature", themeLabel: "自然朋友", icon: "🌙", difficulty: 1 },
+  { id: "nature-mountain", character: "山", pinyin: "shān", word: "大山", sentence: "一座大山高高站着。", hint: "“山”有三座高低不同的山峰。", theme: "nature", themeLabel: "自然朋友", icon: "⛰️", difficulty: 1 },
+  { id: "nature-water", character: "水", pinyin: "shuǐ", word: "喝水", sentence: "玩累了，我们一起喝水。", hint: "“水”的笔画像向两边流动的小河。", theme: "nature", themeLabel: "自然朋友", icon: "💧", difficulty: 1 },
+  { id: "nature-fire", character: "火", pinyin: "huǒ", word: "火苗", sentence: "看到火苗，要请大人来照看。", hint: "“火”像一团向上跳动的小火苗。", theme: "nature", themeLabel: "自然朋友", icon: "🔥", difficulty: 1 },
+  { id: "nature-tree", character: "木", pinyin: "mù", word: "木头", sentence: "木头可以做成小椅子。", hint: "“木”像一棵伸开树枝的大树。", theme: "nature", themeLabel: "自然朋友", icon: "🌳", difficulty: 2 },
+
+  { id: "animal-bird", character: "鸟", pinyin: "niǎo", word: "小鸟", sentence: "小鸟站在树枝上唱歌。", hint: "“鸟”的一点像小鸟亮亮的眼睛。", theme: "animals", themeLabel: "动物伙伴", icon: "🐦", difficulty: 1 },
+  { id: "animal-fish", character: "鱼", pinyin: "yú", word: "小鱼", sentence: "小鱼在水里摆摆尾巴。", hint: "“鱼”的下面像轻轻摇动的鱼尾巴。", theme: "animals", themeLabel: "动物伙伴", icon: "🐟", difficulty: 1 },
+  { id: "animal-horse", character: "马", pinyin: "mǎ", word: "小马", sentence: "小马在草地上慢慢走。", hint: "“马”的下面像一条有力的腿。", theme: "animals", themeLabel: "动物伙伴", icon: "🐴", difficulty: 1 },
+  { id: "animal-cow", character: "牛", pinyin: "niú", word: "小牛", sentence: "小牛在草地上吃青草。", hint: "“牛”的上面像一对小牛角。", theme: "animals", themeLabel: "动物伙伴", icon: "🐮", difficulty: 1 },
+  { id: "animal-sheep", character: "羊", pinyin: "yáng", word: "小羊", sentence: "小羊穿着软软的白外套。", hint: "“羊”的上面像两只弯弯的小角。", theme: "animals", themeLabel: "动物伙伴", icon: "🐑", difficulty: 2 },
+  { id: "animal-bug", character: "虫", pinyin: "chóng", word: "小虫", sentence: "小虫在叶子下面躲雨。", hint: "“虫”的一点像小虫翘起的尾巴。", theme: "animals", themeLabel: "动物伙伴", icon: "🐛", difficulty: 2 },
+
+  { id: "body-person", character: "人", pinyin: "rén", word: "一个人", sentence: "一个人伸开腿向前走。", hint: "“人”像一个迈开双腿的人。", theme: "body", themeLabel: "我的身体", icon: "🧒", difficulty: 1 },
+  { id: "body-mouth", character: "口", pinyin: "kǒu", word: "小口", sentence: "张开小口，说声你好。", hint: "“口”像一张方方的小嘴巴。", theme: "body", themeLabel: "我的身体", icon: "👄", difficulty: 1 },
+  { id: "body-hand", character: "手", pinyin: "shǒu", word: "小手", sentence: "洗干净小手再吃东西。", hint: "“手”的弯钩像会抓东西的手指。", theme: "body", themeLabel: "我的身体", icon: "✋", difficulty: 1 },
+  { id: "body-foot", character: "脚", pinyin: "jiǎo", word: "小脚", sentence: "小脚穿进合适的鞋子里。", hint: "“脚”左边的月字旁和身体有关。", theme: "body", themeLabel: "我的身体", icon: "🦶", difficulty: 2 },
+  { id: "body-eye", character: "眼", pinyin: "yǎn", word: "眼睛", sentence: "眼睛看见一朵红花。", hint: "“眼”左边的目字旁像一只眼睛。", theme: "body", themeLabel: "我的身体", icon: "👁️", difficulty: 2 },
+  { id: "body-ear", character: "耳", pinyin: "ěr", word: "耳朵", sentence: "耳朵听见轻轻的雨声。", hint: "“耳”的样子像耳朵里面的纹路。", theme: "body", themeLabel: "我的身体", icon: "👂", difficulty: 1 },
+
+  { id: "family-dad", character: "爸", pinyin: "bà", word: "爸爸", sentence: "爸爸和我一起搭积木。", hint: "“爸”下面有一个表示声音的“巴”。", theme: "family", themeLabel: "我的家人", icon: "👨", difficulty: 1 },
+  { id: "family-mom", character: "妈", pinyin: "mā", word: "妈妈", sentence: "妈妈和我一起看故事。", hint: "“妈”左边的女字旁，右边是“马”。", theme: "family", themeLabel: "我的家人", icon: "👩", difficulty: 1 },
+  { id: "family-home", character: "家", pinyin: "jiā", word: "回家", sentence: "天黑了，我们一起回家。", hint: "“家”上面的宝盖头像一座屋顶。", theme: "family", themeLabel: "我的家人", icon: "🏠", difficulty: 1 },
+  { id: "family-me", character: "我", pinyin: "wǒ", word: "我们", sentence: "我们一起玩，也一起收拾。", hint: "看到“我”，可以拍拍自己的胸口。", theme: "family", themeLabel: "我的家人", icon: "🙋", difficulty: 1 },
+  { id: "family-you", character: "你", pinyin: "nǐ", word: "你好", sentence: "见到朋友，我说你好。", hint: "看到“你”，可以把手轻轻伸向对方。", theme: "family", themeLabel: "我的家人", icon: "🫵", difficulty: 2 },
+  { id: "family-he", character: "他", pinyin: "tā", word: "他们", sentence: "他们在草地上踢球。", hint: "“他”左边的单人旁表示一个人。", theme: "family", themeLabel: "我的家人", icon: "🧑", difficulty: 2 },
+
+  { id: "space-big", character: "大", pinyin: "dà", word: "大象", sentence: "大象有一对大耳朵。", hint: "“大”像一个人把手脚都伸开。", theme: "space", themeLabel: "大小方向", icon: "🐘", difficulty: 1 },
+  { id: "space-small", character: "小", pinyin: "xiǎo", word: "小花", sentence: "小花从泥土里探出头。", hint: "“小”中间有小钩，两边各有一点。", theme: "space", themeLabel: "大小方向", icon: "🌱", difficulty: 1 },
+  { id: "space-up", character: "上", pinyin: "shàng", word: "上面", sentence: "小鸟飞到大树上面。", hint: "“上”的短横在长横的上面。", theme: "space", themeLabel: "大小方向", icon: "⬆️", difficulty: 1 },
+  { id: "space-down", character: "下", pinyin: "xià", word: "下面", sentence: "小猫躲在桌子下面。", hint: "“下”的一点落在长横的下面。", theme: "space", themeLabel: "大小方向", icon: "⬇️", difficulty: 1 },
+  { id: "space-left", character: "左", pinyin: "zuǒ", word: "左边", sentence: "红色积木放在左边。", hint: "伸出左手，和“左”打个招呼。", theme: "space", themeLabel: "大小方向", icon: "👈", difficulty: 2 },
+  { id: "space-right", character: "右", pinyin: "yòu", word: "右边", sentence: "蓝色杯子放在右边。", hint: "伸出右手，和“右”打个招呼。", theme: "space", themeLabel: "大小方向", icon: "👉", difficulty: 2 },
+];

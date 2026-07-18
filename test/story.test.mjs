@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { FIXED_STORIES } from "../products/ai-story/data/stories.js";
+import { FIXED_STORIES } from "../database/fixed-stories.mjs";
 import { validateStoryInput } from "../server/deepseek.mjs";
+import { validateDeviceId } from "../server/story-store.mjs";
 
 test("固定故事按五大领域各提供五篇", () => {
   assert.equal(FIXED_STORIES.length, 25);
@@ -34,4 +35,10 @@ test("生成输入会被清理并限制长度", () => {
 test("无效年龄和过短事件返回400类型错误", () => {
   assert.throws(() => validateStoryInput({ age: "2-3", domain: "social", event: "事情描述足够长了" }), { statusCode: 400 });
   assert.throws(() => validateStoryInput({ age: "4-5", domain: "social", event: "太短" }), { statusCode: 400 });
+});
+
+test("设备故事历史只接受足够长的随机标识", () => {
+  assert.equal(validateDeviceId("4c706c51-c8f0-4473-a2e5-e6a578666fe4"), "4c706c51-c8f0-4473-a2e5-e6a578666fe4");
+  assert.throws(() => validateDeviceId("short"), { statusCode: 400 });
+  assert.throws(() => validateDeviceId("../../another-device"), { statusCode: 400 });
 });

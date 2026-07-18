@@ -19,7 +19,7 @@
         <div class="hero-copy"><p class="eyebrow"><span></span> 给大人使用，讲给孩子听</p><h1 id="pageTitle">把成长的道理，<br /><em>藏进一个好故事。</em></h1><p class="hero-intro">从 25 篇精心准备的小故事开始，或把孩子今天遇到的事情告诉我们。没有考试，也没有长篇说教，只有听得懂的情节和明天就能试一试的小行动。</p><div class="hero-actions"><button class="primary-action" data-scroll="library">从书架挑一本 <span>↓</span></button><button class="text-action" data-scroll="create">讲讲今天发生的事 <span>→</span></button></div></div>
         <div class="hero-book" aria-hidden="true"><div class="book-cover"><i class="sun-mark"></i><span class="book-kicker">今晚的亲子故事</span><strong>小小<br />寓言屋</strong><small>3～6 岁</small></div><div class="book-pages"></div><div class="bookmark-ribbons"><i></i><i></i><i></i><i></i><i></i></div></div>
       </section>
-      <section class="promise-strip" aria-label="产品特点"><div><b>25</b><span>篇固定故事</span></div><div><b>5</b><span>个成长领域</span></div><div><b>0</b><span>图片与广告干扰</span></div><p>文字为主 · 成人陪伴 · 本地保存</p></section>
+      <section class="promise-strip" aria-label="产品特点"><div><b>25</b><span>篇固定故事</span></div><div><b>5</b><span>个成长领域</span></div><div><b>0</b><span>图片与广告干扰</span></div><p>文字为主 · 成人陪伴 · 当前设备识别</p></section>
       <section class="library-section" id="library" aria-labelledby="libraryTitle">
         <div class="section-heading"><div><p class="section-number">01 / 固定故事</p><h2 id="libraryTitle">五色成长书架</h2><p>每个领域先准备五篇故事。挑选的不是一堂课，而是今晚想和孩子聊的一件小事。</p></div><span id="storyCount" class="result-count">25 篇</span></div>
         <div id="domainFilters" class="domain-filters" role="group" aria-label="按成长领域筛选"></div><div id="storyGrid" class="story-grid"></div>
@@ -32,7 +32,7 @@
           <label class="field-label" for="event">最近发生的事情 <b>必填</b></label><textarea id="event" name="event" maxlength="500" required placeholder="例如：孩子今天搭积木时不愿意轮流，和朋友抢了起来……"></textarea><div class="field-hint"><span>写清发生了什么，不需要先下结论</span><span id="eventCount">0 / 500</span></div>
           <div class="field-pair"><label>孩子的小名 <small>选填</small><input name="childName" maxlength="16" placeholder="例如：果果" /></label><label>喜欢的角色或事物 <small>选填</small><input name="preferences" maxlength="100" placeholder="例如：恐龙、火车" /></label></div>
           <label class="field-label" for="tone">故事氛围</label><select id="tone" name="tone"><option value="温暖、轻松、有一点幽默">温暖又有一点幽默</option><option value="安静、柔和、适合睡前">安静柔和，适合睡前</option><option value="好奇、有小小冒险但不惊吓">好奇的小小冒险</option></select>
-          <p id="formError" class="form-error" role="alert"></p><button id="generateButton" class="generate-button" type="submit"><span class="button-label">写下这个故事</span><span class="button-mark">✦</span></button><p class="privacy-note">描述仅用于本次生成；生成结果只保存在当前浏览器。</p>
+          <p id="formError" class="form-error" role="alert"></p><button id="generateButton" class="generate-button" type="submit"><span class="button-label">写下这个故事</span><span class="button-mark">✦</span></button><p class="privacy-note">描述仅用于本次生成，不写入数据库；生成的故事会保存到故事库，并通过当前设备的随机编号找回。</p>
         </form>
       </section>
       <section class="history-section" id="history" aria-labelledby="historyTitle"><div class="section-heading compact"><div><p class="section-number">03 / 当前设备</p><h2 id="historyTitle">最近写下的故事</h2></div><button id="clearHistory" class="quiet-button" type="button">清空记录</button></div><div id="historyList" class="history-list"></div></section>

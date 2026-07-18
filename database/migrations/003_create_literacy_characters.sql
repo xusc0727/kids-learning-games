@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS literacy_characters (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  character_key VARCHAR(64) NOT NULL,
+  character_value VARCHAR(8) NOT NULL,
+  pinyin VARCHAR(32) NOT NULL,
+  example_word VARCHAR(40) NOT NULL,
+  example_sentence VARCHAR(160) NOT NULL,
+  memory_hint VARCHAR(160) NOT NULL,
+  theme VARCHAR(24) NOT NULL,
+  theme_label VARCHAR(32) NOT NULL,
+  icon VARCHAR(16) NOT NULL,
+  difficulty TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  sort_order SMALLINT UNSIGNED NOT NULL,
+  status VARCHAR(16) NOT NULL DEFAULT 'active',
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  PRIMARY KEY (id),
+  UNIQUE INDEX uk_literacy_characters_key (character_key),
+  UNIQUE INDEX uk_literacy_characters_value (character_value),
+  INDEX idx_literacy_characters_theme_status_sort (theme, status, sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

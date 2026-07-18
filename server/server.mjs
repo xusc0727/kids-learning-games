@@ -5,6 +5,8 @@ import { config, projectRoot } from "./config.mjs";
 import { generateStory } from "./deepseek.mjs";
 import { recordVisit, requestIp } from "./analytics.mjs";
 import { checkDatabase, closeDatabase } from "./database.mjs";
+import { deleteGeneratedStories, insertGeneratedStory, listFixedStories, listGeneratedStories, validateDeviceId } from "./story-store.mjs";
+import { listLiteracyCharacters } from "./literacy-store.mjs";
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -113,8 +115,34 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       const input = await readJsonBody(req);
+      input.deviceId = validateDeviceId(input.deviceId);
       const story = await generateStory(input);
-      json(res, 200, { story });
+      await insertGeneratedStory(story, input.deviceId, config.deepseekModel);
+      json(res, 200, { story, storage: "mysql" });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/stories/fixed") {
+      const stories = await listFixedStories();
+      json(res, 200, { stories });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/stories/history") {
+      const stories = await listGeneratedStories(req.headers["x-device-id"]);
+      json(res, 200, { stories });
+      return;
+    }
+
+    if (req.method === "DELETE" && url.pathname === "/api/stories/history") {
+      const deleted = await deleteGeneratedStories(req.headers["x-device-id"]);
+      json(res, 200, { deleted });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/literacy/characters") {
+      const characters = await listLiteracyCharacters();
+      json(res, 200, { characters });
       return;
     }
 

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#183f35" />
+    <meta name="description" content="汉字小森林：适合3至6岁儿童的图形联想、发音和识字小游戏" />
+    <title>汉字小森林｜童趣成长乐园</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="brand" href="../../"><span class="brand-seal">字</span><span><b>汉字小森林</b><small>童趣成长乐园 · 第三个成长模块</small></span></a>
+      <div class="header-progress" aria-live="polite"><span>认识了</span><strong id="learnedCount">0</strong><span>个字</span></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">LOOK · LISTEN · FIND</p>
+          <h1>每一个汉字，<br />都藏着一幅<em>小小的画。</em></h1>
+          <p>先看一看它像什么，再听一听怎么读。没有考试和倒计时，孩子可以按自己的速度，认识生活里常见的汉字朋友。</p>
+          <div class="hero-actions"><button class="primary-button" data-scroll="characterLibrary">去森林里认字</button><button class="quiet-button" data-scroll="practiceArea">玩一个找字游戏</button></div>
+          <ul class="hero-notes"><li>30 个生活常用字</li><li>普通话发音</li><li>当前设备记录</li></ul>
+        </div>
+        <div class="character-grove" aria-hidden="true">
+          <span class="sun">日</span><span class="moon">月</span><span class="mountain">山</span><span class="person">人</span><span class="tree-main">木</span>
+          <i></i><i></i><i></i><i></i><i></i>
+          <p>字从生活里长出来</p>
+        </div>
+      </section>
+
+      <section class="library" id="characterLibrary" aria-labelledby="libraryTitle">
+        <header class="section-heading"><div><p>01 / 认一认</p><h2 id="libraryTitle">五片汉字小树林</h2><span>点击一张字卡，看图、听音，再把它收进“我认识了”。</span></div><strong id="visibleCount">30 个字</strong></header>
+        <div id="themeFilters" class="theme-filters" role="group" aria-label="按主题筛选汉字"></div>
+        <div id="characterGrid" class="character-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="practice" id="practiceArea" aria-labelledby="practiceTitle">
+        <div class="practice-intro"><p>02 / 找一找</p><h2 id="practiceTitle">听一听，<br />谁藏在这里？</h2><span>每次只玩 5 小轮。选错也没关系，再听一次、再看一眼就好。</span><button id="startPractice" class="start-practice" type="button">开始找汉字 <b>→</b></button></div>
+        <div id="practiceBoard" class="practice-board" aria-live="polite">
+          <div class="practice-placeholder"><div class="stamp-stack"><i>日</i><i>山</i><i>鸟</i></div><p>准备好以后，森林会请三位汉字朋友出来。</p></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><p><b>汉字小森林</b>先帮助孩子建立字形、读音和生活经验的联系，不要求提前书写或机械背诵。</p><span><a href="../../">返回童趣成长乐园</a> · <a href="/privacy.html">数据说明</a></span></footer>
+
+    <dialog id="characterDialog" class="character-dialog">
+      <article class="learning-card">
+        <button id="closeDialog" class="close-dialog" type="button" aria-label="关闭字卡">×</button>
+        <div class="dialog-visual"><span id="dialogIcon">☀️</span><i id="dialogCharacter">日</i></div>
+        <div class="dialog-copy"><p id="dialogTheme">自然朋友</p><h2><span id="dialogPinyin">rì</span><b id="dialogWord">太阳</b></h2><button id="speakCharacter" class="speak-button" type="button"><span>♪</span> 听一听</button><blockquote id="dialogSentence"></blockquote><div class="memory-note"><small>看字找一找</small><p id="dialogHint"></p></div><button id="markLearned" class="learned-button" type="button">把它收进“我认识了”</button></div>
+      </article>
+    </dialog>
+
+    <script defer src="/analytics.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
