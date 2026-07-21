@@ -26,9 +26,11 @@ const state = {
   fixedStories: null,
   fixedError: "",
   history: readStorage(STORAGE.history, []),
+  accountHistory: [],
   favorites: new Set(readStorage(STORAGE.favorites, [])),
   currentStory: null,
   deviceId,
+  authenticated: false,
 };
 
 const domainMap = new Map(DOMAINS.map((domain) => [domain.id, domain]));
@@ -45,6 +47,7 @@ const elements = {
   apiStatus: $("#apiStatus"),
   historyList: $("#historyList"),
   clearHistory: $("#clearHistory"),
+  historyScope: $("#historyScope"),
   dialog: $("#readerDialog"),
   readerDomain: $("#readerDomain"),
   readerTitle: $("#readerTitle"),
@@ -136,13 +139,14 @@ function mergeHistory(primary, secondary) {
 }
 
 function renderHistory() {
-  if (!state.history.length) {
+  const visibleHistory = mergeHistory(state.accountHistory, state.history);
+  if (!visibleHistory.length) {
     elements.historyList.replaceChildren(storyMessage("还没有个性故事。把今天发生的一件小事写下来吧。"));
     elements.clearHistory.hidden = true;
     return;
   }
   elements.clearHistory.hidden = false;
-  elements.historyList.replaceChildren(...state.history.map((story) => {
+  elements.historyList.replaceChildren(...visibleHistory.map((story) => {
     const item = document.createElement("button");
     item.type = "button";
     item.className = "history-item";
@@ -190,13 +194,22 @@ function updateFavoriteButton() {
   elements.favoriteButton.textContent = saved ? "♥ 已收藏这个故事" : "♡ 收藏这个故事";
 }
 
-function toggleFavorite() {
+async function toggleFavorite() {
   if (!state.currentStory) return;
-  if (state.favorites.has(state.currentStory.id)) state.favorites.delete(state.currentStory.id);
-  else state.favorites.add(state.currentStory.id);
+  const saved = !state.favorites.has(state.currentStory.id);
+  if (saved) state.favorites.add(state.currentStory.id);
+  else state.favorites.delete(state.currentStory.id);
   writeStorage(STORAGE.favorites, [...state.favorites]);
   updateFavoriteButton();
   renderStories();
+  if (state.authenticated) {
+    try {
+      const response = await fetch(`/api/me/favorites/${encodeURIComponent(state.currentStory.id)}`, { method: saved ? "PUT" : "DELETE" });
+      if (!response.ok) throw new Error();
+    } catch {
+      // 本地收藏仍保留，下次在家庭空间同步时会再次合并。
+    }
+  }
 }
 
 async function loadFixedStories() {
@@ -223,6 +236,30 @@ async function loadHistory() {
     renderHistory();
   } catch {
     // Database history is additive; local history remains available if the request fails.
+  }
+}
+
+async function loadAccountData() {
+  try {
+    const meResponse = await fetch("/api/me");
+    const me = await meResponse.json();
+    if (!meResponse.ok || !me.authenticated) return;
+    state.authenticated = true;
+    elements.historyScope.textContent = "03 / 家庭与当前设备";
+    const [favoritesResponse, storiesResponse] = await Promise.all([
+      fetch("/api/me/favorites"),
+      fetch("/api/me/stories"),
+    ]);
+    const favorites = await favoritesResponse.json();
+    const stories = await storiesResponse.json();
+    if (favoritesResponse.ok) {
+      for (const key of favorites.storyKeys || []) state.favorites.add(key);
+    }
+    if (storiesResponse.ok) state.accountHistory = stories.stories || [];
+    renderStories();
+    renderHistory();
+  } catch {
+    // 账号服务异常不影响匿名故事体验。
   }
 }
 
@@ -280,15 +317,19 @@ async function submitStory(event) {
 }
 
 async function clearHistory() {
-  if (!confirm("清空当前设备上生成的故事记录吗？数据库中的对应故事也会删除。")) return;
+  const message = state.authenticated
+    ? "清空这个家庭保存的全部个性故事吗？此操作也会移除这些故事的收藏。"
+    : "清空当前设备上生成的故事记录吗？数据库中的对应匿名故事也会删除。";
+  if (!confirm(message)) return;
   try {
-    const response = await fetch("/api/stories/history", {
+    const response = await fetch(state.authenticated ? "/api/me/stories" : "/api/stories/history", {
       method: "DELETE",
-      headers: { "X-Device-ID": state.deviceId },
+      headers: state.authenticated ? {} : { "X-Device-ID": state.deviceId },
     });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || "清空失败，请稍后再试");
     state.history = [];
+    state.accountHistory = [];
     writeStorage(STORAGE.history, state.history);
     renderHistory();
   } catch (error) {
@@ -316,3 +357,4 @@ renderHistory();
 checkApi();
 loadFixedStories();
 loadHistory();
+loadAccountData();

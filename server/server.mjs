@@ -7,6 +7,32 @@ import { recordVisit, requestIp } from "./analytics.mjs";
 import { checkDatabase, closeDatabase } from "./database.mjs";
 import { deleteGeneratedStories, insertGeneratedStory, listFixedStories, listGeneratedStories, validateDeviceId } from "./story-store.mjs";
 import { listLiteracyCharacters } from "./literacy-store.mjs";
+import {
+  claimDeviceData,
+  clearFamilyChildData,
+  deleteAccountStories,
+  getAccountOverview,
+  getPrimaryAccountContext,
+  listAccountFavoriteKeys,
+  listAccountLearnedKeys,
+  listAccountStories,
+  setAccountFavorite,
+  setAccountLiteracyProgress,
+} from "./account-sync-store.mjs";
+import {
+  expiredSessionCookie,
+  requireRecentAuthentication,
+  requireAuthenticatedRequest,
+  authenticateRequest,
+  sessionCookieFor,
+  sessionTokenFromRequest,
+} from "./account-auth.mjs";
+import { deleteAccount, revokeAllSessions, revokeSession } from "./account-store.mjs";
+import { requestPhoneLoginCode, verifyPhoneLoginCode } from "./phone-auth.mjs";
+import { smsReadiness } from "./sms.mjs";
+import { publicErrorMessage, resolvePublicFile, securityHeaders } from "./http-security.mjs";
+import { productionReadiness } from "./production-readiness.mjs";
+import { publicLegalInfo } from "./legal.mjs";
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -24,13 +50,24 @@ const MIME_TYPES = {
 
 const requests = new Map();
 
-function json(res, statusCode, data) {
+function json(res, statusCode, data, extraHeaders = {}) {
   res.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
-    "X-Content-Type-Options": "nosniff",
+    ...securityHeaders(),
+    ...extraHeaders,
   });
   res.end(JSON.stringify(data));
+}
+
+function requireSameOrigin(req) {
+  const origin = req.headers.origin;
+  if (!origin) return;
+  try {
+    if (new URL(origin).host !== req.headers.host) throw new Error();
+  } catch {
+    throw Object.assign(new Error("请求来源不被允许"), { statusCode: 403 });
+  }
 }
 
 function checkRateLimit(ip) {
@@ -58,22 +95,22 @@ async function readJsonBody(req) {
 }
 
 async function serveStatic(urlPath, res) {
-  const decoded = decodeURIComponent(urlPath);
-  const relativePath = decoded === "/" ? "index.html" : decoded.replace(/^\/+/, "");
-  let filePath = path.resolve(projectRoot, relativePath);
-  if (!filePath.startsWith(`${projectRoot}${path.sep}`) && filePath !== path.join(projectRoot, "index.html")) {
-    json(res, 403, { error: "禁止访问" });
+  const filePath = resolvePublicFile(projectRoot, urlPath);
+  if (!filePath) {
+    json(res, 404, { error: "页面不存在" });
     return;
   }
 
   try {
     const stat = await fs.stat(filePath);
-    if (stat.isDirectory()) filePath = path.join(filePath, "index.html");
+    if (!stat.isFile()) {
+      json(res, 404, { error: "页面不存在" });
+      return;
+    }
     const data = await fs.readFile(filePath);
     res.writeHead(200, {
       "Content-Type": MIME_TYPES[path.extname(filePath).toLowerCase()] || "application/octet-stream",
-      "X-Content-Type-Options": "nosniff",
-      "Referrer-Policy": "strict-origin-when-cross-origin",
+      ...securityHeaders(),
       "Cache-Control": filePath.endsWith(".html") ? "no-cache" : "public, max-age=3600",
     });
     res.end(data);
@@ -95,9 +132,128 @@ const server = http.createServer(async (req, res) => {
         ok: true,
         deepseekConfigured: Boolean(config.deepseekApiKey),
         analyticsConfigured: config.analyticsConfigured,
+        accountIdentityConfigured: config.accountIdentityConfigured,
+        phoneLoginConfigured: config.phoneLoginConfigured,
+        sms: smsReadiness(),
         database,
         model: config.deepseekModel,
       });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/legal") {
+      json(res, 200, publicLegalInfo());
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/auth/phone/request-code") {
+      requireSameOrigin(req);
+      const result = await requestPhoneLoginCode(await readJsonBody(req), requestIp(req));
+      json(res, 200, result);
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/auth/phone/verify-code") {
+      requireSameOrigin(req);
+      const result = await verifyPhoneLoginCode(await readJsonBody(req));
+      const { session, ...body } = result;
+      json(res, 200, body, { "Set-Cookie": sessionCookieFor(session.token) });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/me") {
+      const session = await authenticateRequest(req);
+      if (!session) {
+        json(res, 200, { authenticated: false });
+        return;
+      }
+      json(res, 200, { authenticated: true, ...(await getAccountOverview(session.userId)) });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/auth/logout") {
+      requireSameOrigin(req);
+      const token = sessionTokenFromRequest(req);
+      if (token) {
+        try {
+          await revokeSession(token);
+        } catch (error) {
+          // 无效或过期 Cookie 也应被清除；其他数据库异常仍按服务错误处理。
+          if (error?.statusCode !== 401) throw error;
+        }
+      }
+      json(res, 200, { loggedOut: true }, { "Set-Cookie": expiredSessionCookie() });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/auth/logout-all") {
+      requireSameOrigin(req);
+      const session = await requireAuthenticatedRequest(req);
+      await revokeAllSessions(session.userId);
+      json(res, 200, { loggedOut: true }, { "Set-Cookie": expiredSessionCookie() });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/family/claim-device") {
+      requireSameOrigin(req);
+      const session = await requireAuthenticatedRequest(req);
+      json(res, 200, await claimDeviceData(session.userId, await readJsonBody(req)));
+      return;
+    }
+
+    if (req.method === "DELETE" && url.pathname === "/api/family/child-data") {
+      requireSameOrigin(req);
+      const session = await requireAuthenticatedRequest(req);
+      json(res, 200, await clearFamilyChildData(session.userId, await readJsonBody(req)));
+      return;
+    }
+
+    if (req.method === "DELETE" && url.pathname === "/api/account") {
+      requireSameOrigin(req);
+      const session = requireRecentAuthentication(await requireAuthenticatedRequest(req));
+      const result = await deleteAccount(session.userId, await readJsonBody(req));
+      json(res, 200, result, { "Set-Cookie": expiredSessionCookie() });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/me/stories") {
+      const session = await requireAuthenticatedRequest(req);
+      json(res, 200, { stories: await listAccountStories(session.userId) });
+      return;
+    }
+
+    if (req.method === "DELETE" && url.pathname === "/api/me/stories") {
+      requireSameOrigin(req);
+      const session = await requireAuthenticatedRequest(req);
+      json(res, 200, { deleted: await deleteAccountStories(session.userId) });
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/me/favorites") {
+      const session = await requireAuthenticatedRequest(req);
+      json(res, 200, { storyKeys: await listAccountFavoriteKeys(session.userId) });
+      return;
+    }
+
+    const favoriteMatch = url.pathname.match(/^\/api\/me\/favorites\/([A-Za-z0-9-]{1,64})$/);
+    if (favoriteMatch && (req.method === "PUT" || req.method === "DELETE")) {
+      requireSameOrigin(req);
+      const session = await requireAuthenticatedRequest(req);
+      json(res, 200, await setAccountFavorite(session.userId, favoriteMatch[1], req.method === "PUT"));
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/me/literacy-progress") {
+      const session = await requireAuthenticatedRequest(req);
+      json(res, 200, { characterKeys: await listAccountLearnedKeys(session.userId) });
+      return;
+    }
+
+    const literacyMatch = url.pathname.match(/^\/api\/me\/literacy-progress\/([A-Za-z0-9-]{1,64})$/);
+    if (literacyMatch && (req.method === "PUT" || req.method === "DELETE")) {
+      requireSameOrigin(req);
+      const session = await requireAuthenticatedRequest(req);
+      json(res, 200, await setAccountLiteracyProgress(session.userId, literacyMatch[1], req.method === "PUT"));
       return;
     }
 
@@ -117,7 +273,13 @@ const server = http.createServer(async (req, res) => {
       const input = await readJsonBody(req);
       input.deviceId = validateDeviceId(input.deviceId);
       const story = await generateStory(input);
-      await insertGeneratedStory(story, input.deviceId, config.deepseekModel);
+      const session = await authenticateRequest(req);
+      const ownership = session ? await getPrimaryAccountContext(session.userId) : null;
+      await insertGeneratedStory(story, input.deviceId, config.deepseekModel, ownership ? {
+        userId: ownership.user.id,
+        familyId: ownership.family.id,
+        childProfileId: ownership.defaultChild.id,
+      } : {});
       json(res, 200, { story, storage: "mysql" });
       return;
     }
@@ -155,11 +317,15 @@ const server = http.createServer(async (req, res) => {
   } catch (error) {
     const statusCode = error.statusCode || 500;
     if (statusCode >= 500) console.error(error);
-    json(res, statusCode, { error: error.message || "服务器暂时开小差了" });
+    json(res, statusCode, { error: publicErrorMessage(error, statusCode) });
   }
 });
 
-server.listen(config.port, "0.0.0.0", () => {
+const readiness = productionReadiness(config);
+if (config.nodeEnv === "production" && !readiness.ready) {
+  console.error(`生产配置校验失败：\n- ${readiness.issues.join("\n- ")}`);
+  process.exitCode = 1;
+} else server.listen(config.port, config.host, () => {
   console.log(`童趣成长乐园已启动：http://localhost:${config.port}`);
   console.log(`DeepSeek：${config.deepseekApiKey ? `${config.deepseekModel} 已配置` : "尚未配置 API Key"}`);
   console.log(`访客统计：${config.analyticsConfigured ? `已启用，保留 ${config.analyticsRetentionDays} 天` : "尚未配置 ANALYTICS_SALT"}`);

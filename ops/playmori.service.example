@@ -1,0 +1,24 @@
+[Unit]
+Description=Playmori web service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=playmori
+Group=playmori
+WorkingDirectory=/var/www/kids-learning-games
+EnvironmentFile=/etc/playmori/playmori.env
+ExecStart=/usr/bin/node server/server.mjs
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/playmori /var/backups/playmori
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

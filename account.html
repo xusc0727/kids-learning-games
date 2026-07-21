@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#173d33" />
+    <meta name="description" content="童趣成长乐园家庭空间：由成人登录，保存家庭故事、收藏与识字记录" />
+    <title>家庭空间｜童趣成长乐园</title>
+    <link rel="stylesheet" href="account.css?v=2" />
+  </head>
+  <body>
+    <div class="paper-grain" aria-hidden="true"></div>
+    <header class="account-header">
+      <a class="account-brand" href="/"><span>童</span><b>童趣成长乐园</b></a>
+      <a class="back-link" href="/">返回乐园</a>
+    </header>
+
+    <main>
+      <section class="account-intro">
+        <p class="eyebrow">FOR GROWN-UPS · 家长操作区</p>
+        <h1>把散落在设备里的成长片段，<br /><em>收进一个家庭。</em></h1>
+        <p>孩子可以继续免登录使用。家长登录后，故事、收藏和识字记录才会在明确确认后保存到家庭空间，并可在其他设备找回。</p>
+        <div class="privacy-ribbon"><span>成人手机号登录</span><span>默认儿童档案不填写姓名</span><span>不采集儿童照片</span></div>
+      </section>
+
+      <section class="account-stage" aria-live="polite">
+        <aside class="device-ledger">
+          <p class="section-label">这台设备上已有</p>
+          <div class="ledger-mark" aria-hidden="true"><i>家</i><span></span></div>
+          <dl>
+            <div><dt id="localStories">0</dt><dd>篇个性故事</dd></div>
+            <div><dt id="localFavorites">0</dt><dd>个故事收藏</dd></div>
+            <div><dt id="localLearned">0</dt><dd>个认识的字</dd></div>
+          </dl>
+          <p>登录不会自动上传。只有点击“确认并同步”后，这些记录才会归入家庭。</p>
+        </aside>
+
+        <section id="loginPanel" class="paper-panel">
+          <div class="panel-heading"><span>01</span><div><p>成人身份验证</p><h2>手机号登录</h2></div></div>
+          <form id="phoneForm">
+            <label for="phone">中国大陆手机号</label>
+            <div class="input-row"><span>+86</span><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="请输入 11 位手机号" required /><button id="sendCode" type="submit">获取验证码</button></div>
+            <p class="field-note">手机号只用于登录、账号找回和必要的安全通知，不会展示给儿童。</p>
+            <label class="confirm-line legal-confirm"><input id="legalConfirm" type="checkbox" required /><span>我已阅读并同意<a href="/terms.html" target="_blank">《用户协议》</a>和<a href="/privacy.html" target="_blank">《隐私政策》</a>，并确认由成人使用此账号。</span></label>
+          </form>
+          <form id="codeForm" hidden>
+            <label for="code">发送至 <b id="phoneHint"></b> 的验证码</label>
+            <div class="code-row"><input id="code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}" placeholder="六位数字" required /><button id="verifyCode" type="submit">进入家庭空间</button></div>
+            <div class="code-actions"><button id="changePhone" type="button">更换手机号</button><span id="countdown"></span></div>
+            <p id="debugCode" class="debug-code" hidden></p>
+          </form>
+          <p id="loginError" class="form-message error" role="alert"></p>
+          <p class="agreement-note">本页面仅建立成人账号，儿童无需注册。同步儿童相关记录前会另行取得监护人同意。</p>
+        </section>
+
+        <section id="familyPanel" class="paper-panel family-panel" hidden>
+          <div class="panel-heading"><span>家</span><div><p id="accountHint">已安全登录</p><h2 id="familyTitle">我的家庭</h2></div></div>
+          <div class="family-stats">
+            <div><strong id="serverStories">0</strong><span>家庭故事</span></div>
+            <div><strong id="serverFavorites">0</strong><span>故事收藏</span></div>
+            <div><strong id="serverLearned">0</strong><span>认识的字</span></div>
+          </div>
+          <div id="syncCard" class="sync-card">
+            <p class="section-label">首次同步</p>
+            <h3>要把这台设备的记录收进家庭吗？</h3>
+            <p>同步采用合并方式，不会覆盖其他设备已有的收藏和识字记录。同一条记录不会重复创建。</p>
+            <label class="confirm-line"><input id="syncConfirm" type="checkbox" /><span>我是儿童的父母或其他监护人，已阅读并同意<a href="/children-privacy.html" target="_blank">《儿童个人信息处理规则》</a>，确认将本设备记录保存到家庭默认儿童使用位。</span></label>
+            <button id="syncDevice" class="primary-button" type="button" disabled>确认并同步 <span>→</span></button>
+          </div>
+          <p id="syncMessage" class="form-message" role="status"></p>
+          <nav class="product-links" aria-label="返回产品"><a href="/products/ai-story/">去小小寓言屋</a><a href="/products/literacy/">去汉字小森林</a></nav>
+          <div class="session-actions"><button id="logout" type="button">退出当前设备</button><button id="logoutAll" type="button">退出全部设备</button></div>
+          <section class="danger-zone" aria-labelledby="dataControlsTitle">
+            <p class="section-label">隐私与账号</p><h3 id="dataControlsTitle">数据由你决定去留</h3>
+            <p>可以只清空家庭成长数据并撤回同步同意，也可以注销整个成人账号。</p>
+            <div><button id="openClearData" type="button">清空成长数据</button><button id="openDeleteAccount" class="danger" type="button">注销账号</button></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <dialog id="clearDataDialog" class="decision-dialog">
+      <form id="clearDataForm">
+        <p class="dialog-kicker">撤回儿童数据同步同意</p><h2>清空家庭成长数据？</h2>
+        <p>将永久删除家庭 AI 故事、收藏、识字进度和设备同步关系，但保留成人账号。此操作无法撤销。</p>
+        <label for="clearConfirmation">请输入 <b>CLEAR</b> 确认</label><input id="clearConfirmation" autocomplete="off" required />
+        <p id="clearDataError" class="form-message error" role="alert"></p>
+        <div class="dialog-actions"><button class="quiet" data-close-dialog="clearDataDialog" type="button">取消</button><button class="danger" type="submit">永久清空</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="deleteAccountDialog" class="decision-dialog">
+      <form id="deleteAccountForm">
+        <p class="dialog-kicker">高风险操作</p><h2>注销成人账号？</h2>
+        <p>账号、手机号登录身份、全部会话以及仅由你管理的家庭数据都会永久删除。为保护账号，只能在刚完成登录后的 15 分钟内操作。</p>
+        <label for="deleteConfirmation">请输入 <b>DELETE</b> 确认</label><input id="deleteConfirmation" autocomplete="off" required />
+        <p id="deleteAccountError" class="form-message error" role="alert"></p>
+        <div class="dialog-actions"><button class="quiet" data-close-dialog="deleteAccountDialog" type="button">取消</button><button class="danger" type="submit">永久注销</button></div>
+      </form>
+    </dialog>
+
+    <footer><span>家庭空间由成人管理，孩子的基础体验始终不要求登录。</span><span><a href="/terms.html">用户协议</a> · <a href="/privacy.html">隐私政策</a> · <a href="/children-privacy.html">儿童规则</a></span></footer>
+    <script defer src="/analytics.js"></script>
+    <script type="module" src="/account.js"></script>
+  </body>
+</html>

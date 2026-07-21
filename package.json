@@ -10,6 +10,8 @@
     "db:migrate": "node server/db/migrate.mjs && node server/db/seed-stories.mjs && node server/db/seed-literacy.mjs",
     "db:seed": "node server/db/seed-stories.mjs && node server/db/seed-literacy.mjs",
     "db:check": "node server/db/check.mjs",
+    "db:backup": "node server/db/backup.mjs",
+    "check:production": "node server/production-check.mjs",
     "test": "node --test",
     "check": "node --test"
   },
@@ -17,6 +19,7 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@alicloud/dypnsapi20170525": "^2.0.0",
     "mysql2": "3.14.1"
   }
 }

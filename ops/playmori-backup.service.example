@@ -1,0 +1,16 @@
+[Unit]
+Description=Backup Playmori MySQL database
+
+[Service]
+Type=oneshot
+User=playmori
+Group=playmori
+WorkingDirectory=/var/www/kids-learning-games
+EnvironmentFile=/etc/playmori/playmori.env
+ExecStart=/usr/bin/node server/db/backup.mjs
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/backups/playmori
+UMask=0077

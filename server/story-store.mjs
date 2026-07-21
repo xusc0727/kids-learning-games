@@ -10,7 +10,7 @@ function parseList(value) {
   }
 }
 
-function mapStoryRow(row) {
+export function mapStoryRow(row) {
   return {
     id: row.story_key,
     source: row.source,
@@ -85,14 +85,15 @@ export async function listFixedStories() {
   return rows.map(mapStoryRow);
 }
 
-export async function insertGeneratedStory(story, deviceId, modelName) {
+export async function insertGeneratedStory(story, deviceId, modelName, ownership = {}) {
   const pool = await getPool();
   const safeDeviceId = validateDeviceId(deviceId);
   await pool.execute(
     `INSERT INTO stories
       (story_key, source, domain, age_label, duration_label, title, summary, learning_goal,
-       story_content, questions, action_text, parent_tip, device_id, model_name, status, created_at)
-     VALUES (?, 'ai', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', ?)`,
+       story_content, questions, action_text, parent_tip, device_id, model_name,
+       family_id, child_profile_id, created_by_user_id, status, created_at)
+     VALUES (?, 'ai', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', ?)`,
     [
       story.id,
       story.domain,
@@ -107,6 +108,9 @@ export async function insertGeneratedStory(story, deviceId, modelName) {
       story.parentTip,
       safeDeviceId,
       modelName,
+      ownership.familyId || null,
+      ownership.childProfileId || null,
+      ownership.userId || null,
       new Date(story.createdAt),
     ],
   );
@@ -129,6 +133,9 @@ export async function listGeneratedStories(deviceId, limit = 12) {
 export async function deleteGeneratedStories(deviceId) {
   const pool = await getPool();
   const safeDeviceId = validateDeviceId(deviceId);
-  const [result] = await pool.execute("DELETE FROM stories WHERE source = 'ai' AND device_id = ?", [safeDeviceId]);
+  const [result] = await pool.execute(
+    "DELETE FROM stories WHERE source = 'ai' AND device_id = ? AND family_id IS NULL",
+    [safeDeviceId],
+  );
   return result.affectedRows || 0;
 }

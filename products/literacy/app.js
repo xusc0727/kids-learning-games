@@ -15,7 +15,7 @@ const saveLearned = (learned) => {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...learned])); } catch { /* private mode */ }
 };
 
-const state = { characters: null, theme: "all", learned: readLearned(), current: null, round: 0, target: null, exercisePool: [] };
+const state = { characters: null, theme: "all", learned: readLearned(), authenticated: false, current: null, round: 0, target: null, exercisePool: [] };
 const $ = (selector) => document.querySelector(selector);
 const elements = {
   learnedCount: $("#learnedCount"), visibleCount: $("#visibleCount"), filters: $("#themeFilters"), grid: $("#characterGrid"),
@@ -91,10 +91,19 @@ function updateLearnedButton() {
   elements.markLearned.textContent = learned ? "✓ 已经收进“我认识了”" : "把它收进“我认识了”";
 }
 
-function toggleLearned() {
+async function toggleLearned() {
   if (!state.current) return;
-  if (state.learned.has(state.current.id)) state.learned.delete(state.current.id); else state.learned.add(state.current.id);
+  const learned = !state.learned.has(state.current.id);
+  if (learned) state.learned.add(state.current.id); else state.learned.delete(state.current.id);
   saveLearned(state.learned); renderProgress(); renderGrid(); updateLearnedButton();
+  if (state.authenticated) {
+    try {
+      const response = await fetch(`/api/me/literacy-progress/${encodeURIComponent(state.current.id)}`, { method: learned ? "PUT" : "DELETE" });
+      if (!response.ok) throw new Error();
+    } catch {
+      // 本地学习记录仍保留，下次在家庭空间同步时会再次合并。
+    }
+  }
 }
 
 function shuffle(items) {
@@ -171,6 +180,23 @@ async function loadCharacters() {
   renderGrid();
 }
 
+async function loadAccountProgress() {
+  try {
+    const meResponse = await fetch("/api/me");
+    const me = await meResponse.json();
+    if (!meResponse.ok || !me.authenticated) return;
+    const response = await fetch("/api/me/literacy-progress");
+    const result = await response.json();
+    if (!response.ok) return;
+    state.authenticated = true;
+    for (const key of result.characterKeys || []) state.learned.add(key);
+    renderProgress();
+    renderGrid();
+  } catch {
+    // 账号服务异常不影响当前设备识字体验。
+  }
+}
+
 document.querySelectorAll("[data-scroll]").forEach((button) => button.addEventListener("click", () => document.getElementById(button.dataset.scroll)?.scrollIntoView({ behavior: "smooth" })));
 $("#closeDialog").addEventListener("click", () => elements.dialog.close());
 elements.dialog.addEventListener("click", (event) => { if (event.target === elements.dialog) elements.dialog.close(); });
@@ -178,4 +204,4 @@ elements.speakCharacter.addEventListener("click", () => speak(state.current));
 elements.markLearned.addEventListener("click", toggleLearned);
 elements.startPractice.addEventListener("click", startPractice);
 
-renderProgress(); renderFilters(); renderGrid(); loadCharacters();
+renderProgress(); renderFilters(); renderGrid(); loadCharacters(); loadAccountProgress();
