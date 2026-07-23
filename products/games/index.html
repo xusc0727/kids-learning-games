@@ -3,159 +3,223 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f6c856" />
-    <meta name="description" content="面向3至6岁儿童家庭的游戏、故事与亲子成长内容乐园" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎪</text></svg>" />
-    <title>童趣成长乐园｜游戏中心</title>
-    <link rel="stylesheet" href="home.css" />
+    <meta name="theme-color" content="#a9d3bd" />
+    <meta name="description" content="面向3至6岁儿童的故事化成长游戏世界" />
+    <link rel="icon" href="assets/forest/world-background.webp" />
+    <title>童趣森林｜一起让成长树开花</title>
+    <link rel="stylesheet" href="home.css?v=20260723-10" />
   </head>
   <body>
-    <div class="playground-bg" aria-hidden="true">
-      <span class="cloud cloud-a"></span><span class="cloud cloud-b"></span>
-      <i class="spark spark-a">✦</i><i class="spark spark-b">✦</i><i class="spark spark-c">✦</i>
-    </div>
+    <div class="paper-noise" aria-hidden="true"></div>
 
-    <main class="home-shell">
-      <a class="platform-home" href="../../">← 童趣成长乐园</a>
-      <header class="hero">
-        <div class="brand-mark" aria-hidden="true"><span>★</span><b>☺</b></div>
+    <header class="topbar">
+      <a class="platform-home" href="../../" aria-label="返回童趣成长乐园">‹ 成长乐园</a>
+      <a class="forest-brand" href="#forestHome" aria-label="回到童趣森林顶部">
+        <span class="brand-seed" aria-hidden="true">✦</span>
+        <span><b>童趣森林</b><small>PLAYMORI FOREST</small></span>
+      </a>
+      <div class="top-actions">
+        <button id="soundToggle" class="round-button" type="button" aria-label="关闭声音"><span class="sound-icon" aria-hidden="true"></span></button>
+        <div class="leaf-counter" aria-label="成长叶片数量"><span class="forest-art art-plant" aria-hidden="true"></span><b id="leafCount">0</b><small>/ 5</small></div>
+      </div>
+    </header>
+
+    <main id="forestHome">
+      <section class="hero" aria-labelledby="heroTitle">
         <div class="hero-copy">
-          <p class="eyebrow">童趣成长乐园 · 游戏中心</p>
-          <h1>童趣<br /><em>游戏乐园</em></h1>
-          <p>动动手，想一想，每天发现一点新本领！</p>
+          <p class="season-label"><i></i> 第一季 · 新朋友来了</p>
+          <h1 id="heroTitle">一起让<br /><em>成长树</em>开花</h1>
+          <p id="heroIntro" class="hero-intro">小芽从种子里醒来了。森林的新朋友马上就到，可是他的家还没有准备好……</p>
+          <button id="storyStart" class="story-button" type="button">
+            <span><small id="storyButtonEyebrow">从序章开始</small><b id="storyButtonText">去见见小芽</b></span>
+            <i aria-hidden="true">➜</i>
+          </button>
+          <div class="story-status" aria-live="polite">
+            <span class="status-avatar forest-art art-sprout"></span>
+            <p id="statusText"><b>小芽悄悄话：</b>“我听见森林里有脚步声，你愿意和我一起去看看吗？”</p>
+          </div>
         </div>
-        <div class="hero-friends" aria-hidden="true"><span>🐰</span><span>🦊</span><span>🐻</span></div>
-      </header>
 
-      <section class="game-library" aria-labelledby="libraryTitle">
-        <div class="section-title">
-          <div><p>选择一个游戏</p><h2 id="libraryTitle">今天想玩什么？</h2></div>
-          <span class="game-count"><b>10</b> 个游戏</span>
-        </div>
-
-        <div class="game-grid">
-          <a class="game-card restaurant-card" href="restaurant/">
-            <div class="card-art restaurant-art" aria-hidden="true">
-              <div class="mini-awning"><i></i><i></i><i></i><i></i><i></i></div>
-              <span class="animal">🐰</span>
-              <div class="food-row"><span>🍓</span><img src="assets/sandwich.svg" alt="" /><span>🥕</span></div>
-            </div>
-            <div class="card-body">
-              <div class="card-meta"><span>认知启蒙</span><b>4岁+</b></div>
-              <h3>小动物的彩虹餐厅</h3>
-              <p>认识颜色、形状、数量和食物分类，完成小动物的美味点单。</p>
-              <ul aria-label="训练能力"><li>观察力</li><li>分类</li><li>数量</li></ul>
-              <span class="play-button">开始营业 <b>➜</b></span>
-            </div>
-          </a>
-
-          <a class="game-card maze-card" href="maze/">
-            <div class="card-art maze-art" aria-hidden="true">
-              <div class="mini-maze">
-                <i></i><i></i><i class="path"></i><i></i><i></i>
-                <i></i><span>🐰</span><i class="path"></i><i class="path"></i><i></i>
-                <i></i><i class="path"></i><i></i><i class="path"></i><i></i>
-                <i></i><i class="path"></i><i class="path"></i><b>★</b><i></i>
-                <i></i><i></i><i></i><i></i><i></i>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="card-meta"><span>路线规划</span><b>4岁+</b></div>
-              <h3>森林寻宝队</h3>
-              <p>穿过15座迷宫，寻找食物与钥匙，启动机关并打开宝箱。</p>
-              <ul aria-label="训练能力"><li>方向</li><li>逻辑</li><li>规划</li></ul>
-              <span class="play-button">开始探险 <b>➜</b></span>
-            </div>
-          </a>
-
-          <a class="game-card difference-card" href="difference/">
-            <div class="card-art difference-art" aria-hidden="true">
-              <div class="picture one"><span class="sun"></span><i></i><b></b><em></em></div>
-              <div class="versus">找</div>
-              <div class="picture two"><span class="sun"></span><i></i><b></b><em></em></div>
-              <div class="search-ring"></div>
-            </div>
-            <div class="card-body">
-              <div class="card-meta"><span>视觉挑战</span><b>4岁+</b></div>
-              <h3>森林找不同</h3>
-              <p>探索20个丰富场景，每关找出5处颜色、数量或方向差异。</p>
-              <ul aria-label="训练能力"><li>专注力</li><li>观察</li><li>记忆</li></ul>
-              <span class="play-button">开始寻找 <b>➜</b></span>
-            </div>
-          </a>
-
-          <a class="game-card sudoku-card" href="sudoku/">
-            <div class="card-art sudoku-art" aria-hidden="true">
-              <div class="mini-sudoku">
-                <span>🐰</span><span>🐻</span><span>🦊</span><span>🐼</span>
-                <span>🦊</span><span>🐼</span><b>?</b><span>🐻</span>
-                <span>🐻</span><span>🐰</span><span>🐼</span><span>🦊</span>
-                <span>🐼</span><span>🦊</span><span>🐻</span><span>🐰</span>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="card-meta"><span>逻辑启蒙</span><b>4岁+</b></div>
-              <h3>动物图形数独</h3>
-              <p>完成20个4×4动物座位谜题，让每行、每列和小区域都不重复。</p>
-              <ul aria-label="训练能力"><li>逻辑</li><li>排除</li><li>空间</li></ul>
-              <span class="play-button">开始推理 <b>➜</b></span>
-            </div>
-          </a>
-
-          <a class="game-card lineup-card" href="lineup/">
-            <div class="card-art lineup-art" aria-hidden="true">
-              <div class="mini-line"><span>🐰</span><i>➜</i><span>🦊</span><i>➜</i><span>🐻</span></div>
-              <div class="mini-clue"><b>🐰</b><i>◀</i><b>🐻</b><em>🔊</em></div>
-            </div>
-            <div class="card-body">
-              <div class="card-meta"><span>顺序推理</span><b>4岁+</b></div>
-              <h3>动物排排队</h3>
-              <p>听语音线索安排3～5只动物，理解左右、相邻和中间位置。</p>
-              <ul aria-label="训练能力"><li>听力</li><li>顺序</li><li>方位</li></ul>
-              <span class="play-button">开始排队 <b>➜</b></span>
-            </div>
-          </a>
-
-          <a class="game-card train-card" href="train/">
-            <div class="card-art new-game-art train-home-art" aria-hidden="true"><div class="toy-train"><b>🚂</b><i></i><span>🐰</span><i></i><span>🐻</span></div><em>🔊</em></div>
-            <div class="card-body">
-              <div class="card-meta"><span>倾听执行</span><b>4岁+</b></div>
-              <h3>听指令小火车</h3>
-              <p>听懂1～4步连续指令，把动物乘客送进正确颜色的车厢。</p>
-              <ul aria-label="训练能力"><li>倾听</li><li>记忆</li><li>执行</li></ul>
-              <span class="play-button">小火车出发 <b>➜</b></span>
-            </div>
-          </a>
-
-          <a class="game-card shop-card" href="shop/">
-            <div class="card-art new-game-art shop-home-art" aria-hidden="true"><span>🍎</span><span>🍌</span><span>🥕</span><b>🧺</b></div>
-            <div class="card-body"><div class="card-meta"><span>生活数学</span><b>4岁+</b></div><h3>森林小超市</h3><p>按照购物清单挑选商品，在生活场景中练习数量、分类和比较。</p><ul aria-label="训练能力"><li>计数</li><li>分类</li><li>比较</li></ul><span class="play-button">开门营业 <b>➜</b></span></div>
-          </a>
-
-          <a class="game-card story-card-home" href="story-order/">
-            <div class="card-art new-game-art story-home-art" aria-hidden="true"><span>🌱</span><i>➜</i><span>🌿</span><i>➜</i><span>🌻</span></div>
-            <div class="card-body"><div class="card-meta"><span>语言表达</span><b>4岁+</b></div><h3>故事排排队</h3><p>观察图片并排列故事顺序，理解事情的开始、经过和结果。</p><ul aria-label="训练能力"><li>顺序</li><li>因果</li><li>表达</li></ul><span class="play-button">翻开故事 <b>➜</b></span></div>
-          </a>
-
-          <a class="game-card tidy-card" href="tidy/">
-            <div class="card-art new-game-art tidy-home-art" aria-hidden="true"><div>🧸</div><div>📚</div><div>🧦</div><div>✏️</div></div>
-            <div class="card-body"><div class="card-meta"><span>习惯养成</span><b>4岁+</b></div><h3>小小整理家</h3><p>把物品放回正确位置，完成分类任务并检查是否有所遗漏。</p><ul aria-label="训练能力"><li>分类</li><li>任务</li><li>检查</li></ul><span class="play-button">开始整理 <b>➜</b></span></div>
-          </a>
-
-          <a class="game-card builder-card" href="builder/">
-            <div class="card-art new-game-art builder-home-art" aria-hidden="true"><i></i><b></b><span></span><em></em></div>
-            <div class="card-body"><div class="card-meta"><span>图形空间</span><b>4岁+</b></div><h3>图形建筑师</h3><p>辨认图形的形状、大小和位置，用积木组合出完整作品。</p><ul aria-label="训练能力"><li>图形</li><li>空间</li><li>组合</li></ul><span class="play-button">开始搭建 <b>➜</b></span></div>
-          </a>
+        <div id="forestScene" class="forest-scene" aria-label="你的童趣森林，目前成长树刚刚发芽">
+          <div class="resident" aria-hidden="true"><span class="forest-art art-bear"></span><i>新朋友</i></div>
+          <div class="sprout-guide" aria-hidden="true"><span class="forest-art art-sprout"></span><i>小芽</i></div>
+          <div class="world-place market-place" aria-hidden="true"><span class="forest-art art-market"></span><i>彩虹集市</i></div>
+          <div class="world-place train-place" aria-hidden="true"><span class="forest-art art-station"></span><i>叮当车站</i></div>
+          <div class="world-place valley-place" aria-hidden="true"><span class="forest-art art-valley"></span><i>探索山谷</i></div>
+          <div class="world-place stage-place" aria-hidden="true"><span class="forest-art art-stage"></span><i>友谊舞台</i></div>
+          <div id="decorationLayer" class="decoration-layer" aria-label="孩子摆放的森林装饰"></div>
+          <button id="decorationBagButton" class="decoration-bag-button" type="button" aria-label="打开装饰背包">
+            <span class="backpack-icon" aria-hidden="true"><i></i></span>
+            <b>装饰背包</b><small id="decorationBagCount">0</small>
+          </button>
+          <div id="placementHint" class="placement-hint" hidden>
+            <span>点一下森林，把装饰放在这里</span>
+            <button id="cancelPlacement" type="button">取消</button>
+          </div>
+          <div class="scene-sign" aria-hidden="true"><span>我的森林</span><small id="sceneChapter">序章</small></div>
         </div>
       </section>
 
-      <footer>
-        <span aria-hidden="true">🌱</span>
-        <p>轻松玩耍，自然学习</p>
-        <span aria-hidden="true">🌱</span>
-        <a href="/privacy.html">访客统计说明</a>
-      </footer>
+      <section class="journey" aria-labelledby="journeyTitle">
+        <div class="section-heading">
+          <div><p>成长树的五根树枝</p><h2 id="journeyTitle">我们的森林故事</h2></div>
+          <p>每帮助一群朋友，森林就会长大一点。</p>
+        </div>
+        <div class="chapter-path">
+          <button class="chapter-card current" data-chapter="1" type="button">
+            <span class="chapter-number">01</span><i class="chapter-icon forest-art art-cottage"></i>
+            <span class="chapter-copy"><small>生活 · 空间 · 情绪</small><b>森林新家</b><em id="chapterOneStatus">等待你出发</em></span>
+          </button>
+          <div class="path-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <button class="chapter-card locked" data-chapter="2" type="button"><span class="chapter-number">02</span><i class="chapter-icon forest-art art-market"></i><span class="chapter-copy"><small>数量 · 分类 · 比较</small><b>彩虹集市</b><em id="chapterTwoStatus">完成第一章后开启</em></span></button>
+          <div class="path-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <button class="chapter-card locked" data-chapter="3" type="button"><span class="chapter-number">03</span><i class="chapter-icon forest-art art-station"></i><span class="chapter-copy"><small>倾听 · 记忆 · 顺序</small><b>叮当车站</b><em id="chapterThreeStatus">完成第二章后开启</em></span></button>
+          <div class="path-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <button class="chapter-card locked" data-chapter="4" type="button"><span class="chapter-number">04</span><i class="chapter-icon forest-art art-valley"></i><span class="chapter-copy"><small>观察 · 规划 · 自然</small><b>探索山谷</b><em id="chapterFourStatus">完成第三章后开启</em></span></button>
+          <div class="path-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <button class="chapter-card locked" data-chapter="5" type="button"><span class="chapter-number">05</span><i class="chapter-icon forest-art art-stage"></i><span class="chapter-copy"><small>表达 · 合作 · 创造</small><b>友谊舞台</b><em id="chapterFiveStatus">完成第四章后开启</em></span></button>
+        </div>
+      </section>
+
+      <section class="grownup-note" aria-label="给家长的话">
+        <div class="note-mark">给<br />家长</div>
+        <div><h2 id="grownupTitle">这一季，孩子会自然练习什么？</h2><p id="grownupText">生活分类、图形空间、数量比较、倾听记忆、路线规划、自然顺序、情绪表达、合作与节奏创造。</p></div>
+        <button id="resetProgress" type="button">重新体验整个故事</button>
+      </section>
+
+      <details class="free-play">
+        <summary><span><small>原有游戏都保留在这里</small><b>自由游戏区</b></span><i>展开 10 个游戏 ＋</i></summary>
+        <div class="game-grid">
+          <a href="restaurant/"><span class="forest-art art-hamper"></span><b>彩虹餐厅</b><small>分类 · 数量</small></a>
+          <a href="maze/"><span class="forest-art art-compass"></span><b>森林寻宝队</b><small>方向 · 规划</small></a>
+          <a href="difference/"><span class="forest-art art-feather"></span><b>森林找不同</b><small>观察 · 专注</small></a>
+          <a href="sudoku/"><span class="forest-art art-owl"></span><b>动物图形数独</b><small>逻辑 · 排除</small></a>
+          <a href="lineup/"><span class="forest-art art-rabbit"></span><b>动物排排队</b><small>顺序 · 方位</small></a>
+          <a href="train/"><span class="forest-art art-locomotive"></span><b>听指令小火车</b><small>倾听 · 记忆</small></a>
+          <a href="shop/"><span class="forest-art art-market"></span><b>森林小超市</b><small>计数 · 比较</small></a>
+          <a href="story-order/"><span class="forest-art art-red-book"></span><b>故事排排队</b><small>因果 · 表达</small></a>
+          <a href="tidy/"><span class="forest-art art-laundry"></span><b>小小整理家</b><small>分类 · 检查</small></a>
+          <a href="builder/"><span class="forest-art art-triangle"></span><b>图形建筑师</b><small>图形 · 空间</small></a>
+        </div>
+      </details>
     </main>
+
+    <footer><span class="forest-art art-sprout"></span><p>每一次小小帮助，都让森林长大一点。</p><a href="/privacy.html">访客统计说明</a></footer>
+
+    <dialog id="questDialog" class="quest-dialog" aria-labelledby="questTitle">
+      <div class="quest-shell">
+        <header class="quest-header">
+          <div class="quest-brand"><span class="forest-art art-sprout"></span><p><small>第一章</small><b id="questTitle">森林新家</b></p></div>
+          <div id="questProgress" class="quest-progress" aria-label="任务进度"><i></i><i></i><i></i><i></i></div>
+          <button id="closeQuest" class="close-button" type="button" aria-label="暂时离开任务">×</button>
+        </header>
+
+        <section id="questIntro" class="quest-screen active intro-screen">
+          <div class="story-picture" aria-hidden="true"><span class="story-sprout forest-art art-sprout"></span><span class="story-bear forest-art art-bear"></span><i class="empty-house forest-art art-cottage"></i><b>?</b></div>
+          <p class="quest-kicker">今天，森林来了一位新朋友</p>
+          <h2>小熊的家还没准备好</h2>
+          <p>箱子里的东西乱糟糟，树屋也只画好了一张图纸。我们陪小熊一起把新家准备好吧！</p>
+          <button id="beginQuest" class="primary-action" type="button"><span>我来帮忙</span><i>➜</i></button>
+        </section>
+
+        <section id="tidyTask" class="quest-screen game-screen">
+          <div class="task-heading"><span class="task-guide forest-art art-bear"></span><div><p>任务一 · 分分类</p><h2>把东西送回自己的小窝</h2></div></div>
+          <p class="spoken-task">先点一个物品，再点它应该去的小窝。</p>
+          <div id="tidyItems" class="tidy-items" aria-label="需要整理的物品">
+            <button type="button" data-kind="toy" aria-label="玩具小汽车"><span class="forest-art art-car"></span></button><button type="button" data-kind="book" aria-label="故事书"><span class="forest-art art-red-book"></span></button><button type="button" data-kind="clothes" aria-label="黄色上衣"><span class="forest-art art-shirt"></span></button>
+            <button type="button" data-kind="book" aria-label="图画书"><span class="forest-art art-green-book"></span></button><button type="button" data-kind="toy" aria-label="皮球"><span class="forest-art art-ball"></span></button><button type="button" data-kind="clothes" aria-label="小袜子"><span class="forest-art art-socks"></span></button>
+          </div>
+          <div class="tidy-bins">
+            <button type="button" data-accept="toy"><span class="forest-art art-toy-basket"></span><b>玩具篮</b></button>
+            <button type="button" data-accept="book"><span class="forest-art art-bookshelf"></span><b>小书架</b></button>
+            <button type="button" data-accept="clothes"><span class="forest-art art-laundry"></span><b>衣物筐</b></button>
+          </div>
+          <p id="tidyFeedback" class="game-feedback" aria-live="polite">小熊说：“我们先从哪一件开始呢？”</p>
+        </section>
+
+        <section id="buildTask" class="quest-screen game-screen">
+          <div class="task-heading"><span class="task-guide forest-art art-sprout"></span><div><p>任务二 · 看图形</p><h2>按照图纸补好小树屋</h2></div></div>
+          <p class="spoken-task">点一个积木，再点相同形状的虚线位置。</p>
+          <div class="build-board">
+            <div class="blueprint-mini"><small>小芽的图纸</small><div><i class="shape triangle"></i><i class="shape square"></i><i class="shape circle"></i></div></div>
+            <div id="houseSlots" class="house-slots" aria-label="树屋图形位置">
+              <button type="button" data-shape="triangle" aria-label="三角形屋顶位置"><i class="shape triangle"></i></button>
+              <button type="button" data-shape="square" aria-label="正方形墙壁位置"><i class="shape square"></i></button>
+              <button type="button" data-shape="circle" aria-label="圆形窗户位置"><i class="shape circle"></i></button>
+            </div>
+          </div>
+          <div id="shapeTray" class="shape-tray" aria-label="可选择的图形">
+            <button type="button" data-shape="circle"><i class="shape circle"></i><b>圆形</b></button>
+            <button type="button" data-shape="triangle"><i class="shape triangle"></i><b>三角形</b></button>
+            <button type="button" data-shape="square"><i class="shape square"></i><b>正方形</b></button>
+          </div>
+          <p id="buildFeedback" class="game-feedback" aria-live="polite">图纸上有三种形状，先选一块积木吧。</p>
+        </section>
+
+        <section id="feelingTask" class="quest-screen game-screen feeling-screen">
+          <div class="task-heading"><span class="task-guide forest-art art-bear"></span><div><p>任务三 · 交朋友</p><h2>小熊为什么没有笑呢？</h2></div></div>
+          <div class="feeling-story"><span class="forest-art art-bear"></span><p>“新家很好看，可这是我第一次离开原来的家，我有一点想妈妈……”</p></div>
+          <p class="spoken-task">哪句话能让小熊感到舒服一点？</p>
+          <div id="feelingChoices" class="feeling-choices">
+            <button type="button" data-kind="kind"><span class="forest-art art-wreath"></span><b>我陪你一起布置新家吧</b></button>
+            <button type="button" data-kind="dismiss"><span class="forest-art art-sign"></span><b>别难过了，这没什么</b></button>
+            <button type="button" data-kind="leave"><span class="forest-art art-feather"></span><b>那我先去玩啦</b></button>
+          </div>
+          <p id="feelingFeedback" class="game-feedback" aria-live="polite">难过的时候，有人理解、有人陪伴，会让心里暖暖的。</p>
+        </section>
+
+        <section id="rewardTask" class="quest-screen reward-screen">
+          <p class="quest-kicker">小熊的新家准备好啦</p>
+          <h2>三个装饰都送给你</h2>
+          <p>把它们装进背包，回到森林后想放在哪里都可以。</p>
+          <div id="rewardChoices" class="reward-choices">
+            <div><span class="forest-art art-cottage-planter"></span><b>花朵窗台盒</b><small>给森林添一片花香</small></div>
+            <div><span class="forest-art art-cottage-lantern"></span><b>屋檐暖灯</b><small>照亮温暖的角落</small></div>
+            <div><span class="forest-art art-door-wreath"></span><b>森林门环</b><small>把欢迎挂在森林里</small></div>
+          </div>
+          <button id="collectChapterOneRewards" class="primary-action collect-all-button" type="button"><span>全部装进背包</span><i>➜</i></button>
+          <p id="rewardFeedback" class="reward-feedback" aria-live="polite">通关奖励有三件，一件也不会少。</p>
+        </section>
+
+        <section id="completeScreen" class="quest-screen complete-screen">
+          <div class="celebration" aria-hidden="true"><i>✦</i><i>●</i><i>✿</i><span class="forest-art art-bear"></span><i>✿</i><i>●</i><i>✦</i></div>
+          <p class="quest-kicker">第一根树枝发芽了</p>
+          <h2>森林里有了第一座新家！</h2>
+          <p>你会整理物品、观察图形，也知道朋友难过时可以陪在身边。三个新装饰已经放进背包啦。</p>
+          <div class="earned-leaf"><span class="forest-art art-plant"></span><p><small>获得成长叶片</small><b>森林新家叶</b></p></div>
+          <button id="returnForest" class="primary-action" type="button"><span>回到我的森林</span><i>➜</i></button>
+        </section>
+      </div>
+    </dialog>
+
+    <dialog id="adventureDialog" class="quest-dialog adventure-dialog" aria-labelledby="adventureTitle">
+      <div class="quest-shell">
+        <header class="quest-header">
+          <div class="quest-brand"><span id="adventureIcon" class="forest-art art-market"></span><p><small id="adventureChapter">第二章</small><b id="adventureTitle">彩虹集市</b></p></div>
+          <div id="adventureProgress" class="quest-progress" aria-label="任务进度"><i></i><i></i><i></i><i></i></div>
+          <button id="closeAdventure" class="close-button" type="button" aria-label="暂时离开任务">×</button>
+        </header>
+        <section id="adventureContent" class="adventure-content" aria-live="polite"></section>
+      </div>
+    </dialog>
+
+    <dialog id="decorationBagDialog" class="decoration-bag-dialog" aria-labelledby="decorationBagTitle">
+      <div class="decoration-bag-shell">
+        <header>
+          <span class="large-backpack-icon backpack-icon" aria-hidden="true"><i></i></span>
+          <div><small>我的收藏</small><h2 id="decorationBagTitle">装饰背包</h2></div>
+          <button id="closeDecorationBag" class="close-button" type="button" aria-label="关闭装饰背包">×</button>
+        </header>
+        <p class="bag-help">点一个装饰，再到森林里点一下想摆放的位置。已经放好的装饰可以按住拖动。</p>
+        <div id="decorationInventory" class="decoration-inventory"></div>
+        <p id="decorationEmpty" class="decoration-empty">完成第一章后，背包里就会出现第一组装饰。</p>
+      </div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="world.js?v=20260723-6"></script>
+    <script src="chapters.js?v=20260723-6"></script>
+    <script src="decorations.js?v=20260723-6"></script>
     <script defer src="/analytics.js"></script>
   </body>
 </html>
