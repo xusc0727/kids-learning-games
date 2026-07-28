@@ -58,6 +58,13 @@ test("森林主线使用项目内的原创图集素材", () => {
   assert.doesNotMatch(html, /🐻|🐰|🦊|🐼|🚂|🧺|🧭|🎪/);
 });
 
+test("会动的小芽可以继续当前故事，同时不干扰装饰摆放", () => {
+  assert.match(html, /<button id="sproutGuide"[^>]*aria-label="听听小芽的提醒，继续当前故事"/);
+  assert.match(worldScript, /sproutGuide\.addEventListener\("click"/);
+  assert.match(worldScript, /classList\.contains\("placing-decoration"\)/);
+  assert.match(worldScript, /openCurrentStory\(\)/);
+});
+
 test("每章通关后一次获得该章全部装饰", () => {
   assert.match(html, /id="collectChapterOneRewards"/);
   assert.match(worldScript, /三个装饰都装进背包啦/);

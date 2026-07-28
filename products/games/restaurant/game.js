@@ -362,15 +362,14 @@ function addDrag(card) {
 }
 
 function speak(text) {
-  if (!state.sound || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "zh-CN";
-  utterance.rate = 0.83;
-  utterance.pitch = 1.18;
-  utterance.onstart = () => el.repeat.classList.add("is-speaking");
-  utterance.onend = () => el.repeat.classList.remove("is-speaking");
-  window.speechSynthesis.speak(utterance);
+  if (!state.sound) return;
+  window.PlaymoriVoice.speak(text, {
+    rate: 0.83,
+    pitch: 1.07,
+    onstart: () => el.repeat.classList.add("is-speaking"),
+    onend: () => el.repeat.classList.remove("is-speaking"),
+    onerror: () => el.repeat.classList.remove("is-speaking")
+  });
 }
 
 function speakTask() {
@@ -400,7 +399,7 @@ function playSuccessTone() {
 
 function toggleSound() {
   state.sound = !state.sound;
-  if (!state.sound && "speechSynthesis" in window) window.speechSynthesis.cancel();
+  if (!state.sound) window.PlaymoriVoice.cancel();
   el.soundWelcome.textContent = state.sound ? "🔊 声音开着" : "🔇 声音关了";
   el.soundWelcome.setAttribute("aria-label", state.sound ? "关闭声音" : "打开声音");
   el.soundGame.textContent = state.sound ? "🔊" : "🔇";
@@ -417,7 +416,7 @@ function startGame() {
 }
 
 function finishGame() {
-  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  window.PlaymoriVoice.cancel();
   const sticker = sample(stickers);
   el.finishSummary.textContent = `你帮助了${state.totalRounds}位小动物，获得${state.stars}颗彩虹星星！`;
   el.stickerEmoji.textContent = sticker.emoji;

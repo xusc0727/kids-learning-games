@@ -392,13 +392,8 @@ function showHint() {
 }
 
 function speakMaze(text) {
-  if (!mazeState.sound || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "zh-CN";
-  utterance.rate = .84;
-  utterance.pitch = 1.15;
-  window.speechSynthesis.speak(utterance);
+  if (!mazeState.sound) return;
+  window.PlaymoriVoice.speak(text, { rate: .84, pitch: 1.06 });
 }
 
 function speakMazeTask() {
@@ -407,7 +402,7 @@ function speakMazeTask() {
 
 function toggleMazeSound() {
   mazeState.sound = !mazeState.sound;
-  if (!mazeState.sound && "speechSynthesis" in window) window.speechSynthesis.cancel();
+  if (!mazeState.sound) window.PlaymoriVoice.cancel();
   mazeEl.soundWelcome.textContent = mazeState.sound ? "🔊 声音开着" : "🔇 声音关了";
   mazeEl.soundWelcome.setAttribute("aria-label", mazeState.sound ? "关闭声音" : "打开声音");
   mazeEl.soundGame.textContent = mazeState.sound ? "🔊" : "🔇";

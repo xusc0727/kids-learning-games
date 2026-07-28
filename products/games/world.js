@@ -17,6 +17,7 @@
 
   const dialog = $("#questDialog");
   const storyStart = $("#storyStart");
+  const sproutGuide = $("#sproutGuide");
 
   function loadState() {
     try {
@@ -33,13 +34,8 @@
   }
 
   function speak(text) {
-    if (!state.sound || !("speechSynthesis" in window)) return;
-    speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "zh-CN";
-    utterance.rate = 0.82;
-    utterance.pitch = 1.12;
-    speechSynthesis.speak(utterance);
+    if (!state.sound) return;
+    window.PlaymoriVoice.speak(text);
   }
 
   function chime(success = true) {
@@ -126,7 +122,7 @@
   }
 
   function closeQuest() {
-    if ("speechSynthesis" in window) speechSynthesis.cancel();
+    window.PlaymoriVoice.cancel();
     dialog.close();
   }
 
@@ -138,9 +134,16 @@
     window.setTimeout(() => setScreen(nextScreen), 650);
   }
 
-  storyStart.addEventListener("click", () => {
+  function openCurrentStory() {
     if (window.PlaymoriOpenNextChapter?.()) return;
     openQuest();
+  }
+
+  storyStart.addEventListener("click", openCurrentStory);
+  sproutGuide.addEventListener("click", (event) => {
+    if ($("#forestScene").classList.contains("placing-decoration")) return;
+    event.stopPropagation();
+    openCurrentStory();
   });
   $(".chapter-card.current").addEventListener("click", openQuest);
   $("#closeQuest").addEventListener("click", closeQuest);
@@ -264,7 +267,7 @@
     state.sound = !state.sound;
     $("#soundToggle").classList.toggle("muted", !state.sound);
     $("#soundToggle").setAttribute("aria-label", state.sound ? "关闭声音" : "打开声音");
-    if (!state.sound && "speechSynthesis" in window) speechSynthesis.cancel();
+    if (!state.sound) window.PlaymoriVoice.cancel();
     saveState();
   });
 
