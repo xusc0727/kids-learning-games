@@ -130,6 +130,7 @@ const server = http.createServer(async (req, res) => {
       const database = await checkDatabase();
       json(res, 200, {
         ok: true,
+        aiStoryGenerationEnabled: config.aiStoryGenerationEnabled,
         deepseekConfigured: Boolean(config.deepseekApiKey),
         analyticsConfigured: config.analyticsConfigured,
         accountIdentityConfigured: config.accountIdentityConfigured,
@@ -265,6 +266,10 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === "POST" && url.pathname === "/api/stories/generate") {
+      if (!config.aiStoryGenerationEnabled) {
+        json(res, 404, { error: "故事生成功能暂未开放" });
+        return;
+      }
       const ip = requestIp(req);
       if (!checkRateLimit(ip)) {
         json(res, 429, { error: "生成得有点快，请稍后再试" });
@@ -327,7 +332,7 @@ if (config.nodeEnv === "production" && !readiness.ready) {
   process.exitCode = 1;
 } else server.listen(config.port, config.host, () => {
   console.log(`童趣成长乐园已启动：http://localhost:${config.port}`);
-  console.log(`DeepSeek：${config.deepseekApiKey ? `${config.deepseekModel} 已配置` : "尚未配置 API Key"}`);
+  console.log(`AI 故事生成：${config.aiStoryGenerationEnabled ? `${config.deepseekModel} 已启用` : "已关闭"}`);
   console.log(`访客统计：${config.analyticsConfigured ? `已启用，保留 ${config.analyticsRetentionDays} 天` : "尚未配置 ANALYTICS_SALT"}`);
   console.log(`MySQL：${config.databaseConfigured ? `${config.databaseHost}:${config.databasePort}/${config.databaseName}` : "尚未启用"}`);
 });

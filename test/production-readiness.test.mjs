@@ -27,7 +27,8 @@ test("服务端错误不会返回内部异常信息并带有安全响应头", ()
 
 test("生产配置缺失会失败，完整且独立的配置才能通过", () => {
   const complete = {
-    nodeEnv: "production", databaseConfigured: true, databasePassword: "db-password", deepseekApiKey: "deepseek-key",
+    nodeEnv: "production", databaseConfigured: true, databasePassword: "db-password",
+    aiStoryGenerationEnabled: false, deepseekApiKey: "",
     sessionCookieSecure: true, accountIdentityConfigured: true, phoneLoginConfigured: true,
     smsProvider: "aliyun-auth", smsConfigured: true, publicOperatorName: "杭州某某工作室",
     publicContactChannel: "微信公众号：童趣成长乐园", publicPrivacyEmail: "privacy@playmori.online",
@@ -35,6 +36,13 @@ test("生产配置缺失会失败，完整且独立的配置才能通过", () =>
     accountIdentityHashSecret: "hash-secret", accountIdentityEncryptionKey: "encryption-key", phoneOtpSecret: "otp-secret",
   };
   assert.deepEqual(productionReadiness(complete), { ready: true, issues: [] });
+  const aiWithoutKey = productionReadiness({ ...complete, aiStoryGenerationEnabled: true });
+  assert.equal(aiWithoutKey.ready, false);
+  assert.ok(aiWithoutKey.issues.some((issue) => issue.includes("DEEPSEEK_API_KEY")));
+  assert.deepEqual(
+    productionReadiness({ ...complete, aiStoryGenerationEnabled: true, deepseekApiKey: "deepseek-key" }),
+    { ready: true, issues: [] },
+  );
   const unsafe = productionReadiness({ ...complete, host: "0.0.0.0", sessionCookieSecure: false, smsProvider: "console" });
   assert.equal(unsafe.ready, false);
   assert.ok(unsafe.issues.length >= 3);

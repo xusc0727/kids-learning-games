@@ -4,40 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f4ead7" />
-    <meta name="description" content="小小寓言屋：适合3至6岁儿童收听的固定故事与AI个性化寓言故事" />
+    <meta name="description" content="小小寓言屋：适合3至6岁儿童亲子共读的固定成长故事" />
     <title>小小寓言屋｜童趣成长乐园</title>
     <link rel="stylesheet" href="styles.css?v=2" />
   </head>
   <body>
     <div class="paper-noise" aria-hidden="true"></div>
     <header class="site-header">
-      <a class="brand" href="../../" aria-label="返回童趣成长乐园"><span class="brand-seal">寓</span><span><b>小小寓言屋</b><small>童趣成长乐园 · AI 故事</small></span></a>
-      <nav aria-label="页面导航"><button class="nav-link active" data-scroll="library">故事书架</button><button class="nav-link" data-scroll="create">为孩子写一个</button><button class="nav-link" data-scroll="history">最近故事</button><a class="nav-link family-entry" href="/account.html">家庭空间</a></nav>
+      <a class="brand" href="../../" aria-label="返回童趣成长乐园"><span class="brand-seal">寓</span><span><b>小小寓言屋</b><small>童趣成长乐园 · 亲子故事</small></span></a>
+      <nav aria-label="页面导航"><button class="nav-link active" data-scroll="library">故事书架</button><a class="nav-link family-entry" href="/account.html">家庭空间</a></nav>
     </header>
     <main>
       <section class="hero" aria-labelledby="pageTitle">
-        <div class="hero-copy"><p class="eyebrow"><span></span> 给大人使用，讲给孩子听</p><h1 id="pageTitle">把成长的道理，<br /><em>藏进一个好故事。</em></h1><p class="hero-intro">从 25 篇精心准备的小故事开始，或把孩子今天遇到的事情告诉我们。没有考试，也没有长篇说教，只有听得懂的情节和明天就能试一试的小行动。</p><div class="hero-actions"><button class="primary-action" data-scroll="library">从书架挑一本 <span>↓</span></button><button class="text-action" data-scroll="create">讲讲今天发生的事 <span>→</span></button></div></div>
+        <div class="hero-copy"><p class="eyebrow"><span></span> 给大人使用，讲给孩子听</p><h1 id="pageTitle">把成长的道理，<br /><em>藏进一个好故事。</em></h1><p class="hero-intro">从 25 篇精心准备的小故事里，挑一个今晚想和孩子聊的话题。没有考试，也没有长篇说教，只有听得懂的情节和明天就能试一试的小行动。</p><div class="hero-actions"><button class="primary-action" data-scroll="library">从书架挑一本 <span>↓</span></button></div></div>
         <div class="hero-book" aria-hidden="true"><div class="book-cover"><i class="sun-mark"></i><span class="book-kicker">今晚的亲子故事</span><strong>小小<br />寓言屋</strong><small>3～6 岁</small></div><div class="book-pages"></div><div class="bookmark-ribbons"><i></i><i></i><i></i><i></i><i></i></div></div>
       </section>
-      <section class="promise-strip" aria-label="产品特点"><div><b>25</b><span>篇固定故事</span></div><div><b>5</b><span>个成长领域</span></div><div><b>0</b><span>图片与广告干扰</span></div><p>文字为主 · 成人陪伴 · 当前设备识别</p></section>
+      <section class="promise-strip" aria-label="产品特点"><div><b>25</b><span>篇固定故事</span></div><div><b>5</b><span>个成长领域</span></div><div><b>0</b><span>图片与广告干扰</span></div><p>文字为主 · 成人陪伴 · 温和启发</p></section>
       <section class="library-section" id="library" aria-labelledby="libraryTitle">
         <div class="section-heading"><div><p class="section-number">01 / 固定故事</p><h2 id="libraryTitle">五色成长书架</h2><p>每个领域先准备五篇故事。挑选的不是一堂课，而是今晚想和孩子聊的一件小事。</p></div><span id="storyCount" class="result-count">25 篇</span></div>
         <div id="domainFilters" class="domain-filters" role="group" aria-label="按成长领域筛选"></div><div id="storyGrid" class="story-grid"></div>
       </section>
-      <section class="create-section" id="create" aria-labelledby="createTitle">
-        <div class="create-aside"><p class="section-number">02 / AI 个性故事</p><h2 id="createTitle">今天发生了<br />什么小事？</h2><p>不用先想好寓意。只要描述发生了什么、孩子怎样反应，我们会把它转成温和、具体、可修复的故事。</p><div class="example-note"><span>可以这样写</span><p>“孩子今天搭积木时不愿意轮流，和朋友抢了起来。他很喜欢恐龙。”</p></div><div id="apiStatus" class="api-status"><i></i><span>正在检查故事写作服务…</span></div></div>
-        <form id="storyForm" class="story-form">
-          <fieldset><legend>孩子多大？</legend><div class="choice-row"><label><input type="radio" name="age" value="3-4" /><span>3～4 岁<small>短句与重复</small></span></label><label><input type="radio" name="age" value="4-5" checked /><span>4～5 岁<small>简单因果</small></span></label><label><input type="radio" name="age" value="5-6" /><span>5～6 岁<small>换位与办法</small></span></label></div></fieldset>
-          <label class="field-label" for="domain">希望故事更关注哪个方面？</label><select id="domain" name="domain" required><option value="health">健康 · 情绪、习惯与安全</option><option value="language">语言 · 倾听与表达</option><option value="social" selected>社会 · 分享、合作与界限</option><option value="science">科学 · 观察、数量与因果</option><option value="art">艺术 · 感受与想象</option></select>
-          <label class="field-label" for="event">最近发生的事情 <b>必填</b></label><textarea id="event" name="event" maxlength="500" required placeholder="例如：孩子今天搭积木时不愿意轮流，和朋友抢了起来……"></textarea><div class="field-hint"><span>写清发生了什么，不需要先下结论</span><span id="eventCount">0 / 500</span></div>
-          <div class="field-pair"><label>孩子的小名 <small>选填</small><input name="childName" maxlength="16" placeholder="例如：果果" /></label><label>喜欢的角色或事物 <small>选填</small><input name="preferences" maxlength="100" placeholder="例如：恐龙、火车" /></label></div>
-          <label class="field-label" for="tone">故事氛围</label><select id="tone" name="tone"><option value="温暖、轻松、有一点幽默">温暖又有一点幽默</option><option value="安静、柔和、适合睡前">安静柔和，适合睡前</option><option value="好奇、有小小冒险但不惊吓">好奇的小小冒险</option></select>
-          <p id="formError" class="form-error" role="alert"></p><button id="generateButton" class="generate-button" type="submit"><span class="button-label">写下这个故事</span><span class="button-mark">✦</span></button><p class="privacy-note">描述仅用于本次生成，不写入数据库；生成的故事会保存到故事库，并通过当前设备的随机编号找回。</p>
-        </form>
-      </section>
-      <section class="history-section" id="history" aria-labelledby="historyTitle"><div class="section-heading compact"><div><p id="historyScope" class="section-number">03 / 当前设备</p><h2 id="historyTitle">最近写下的故事</h2></div><button id="clearHistory" class="quiet-button" type="button">清空记录</button></div><div id="historyList" class="history-list"></div></section>
     </main>
-    <footer><p><b>小小寓言屋</b>不是让 AI 替代陪伴，而是帮大人找到一个更容易开口的故事。</p><span><a href="../../">返回童趣成长乐园</a> · <a href="/privacy.html">访客统计说明</a></span></footer>
+    <footer><p><b>小小寓言屋</b>用温和的固定故事，帮大人和孩子找到一个更容易开口的话题。</p><span><a href="../../">返回童趣成长乐园</a> · <a href="/privacy.html">访客统计说明</a></span></footer>
     <dialog id="readerDialog" class="reader-dialog"><article class="reader-paper"><button id="closeReader" class="close-reader" type="button" aria-label="关闭故事">×</button><header><span id="readerDomain" class="reader-domain"></span><h2 id="readerTitle"></h2><p id="readerGoal" class="reader-goal"></p><div class="reader-rule"></div></header><div id="readerStory" class="reader-story"></div><section class="talk-card"><p>听完可以聊一聊</p><ol id="readerQuestions"></ol></section><section class="action-card"><span>明天试一试</span><p id="readerAction"></p></section><p id="readerTip" class="reader-tip"></p><button id="favoriteButton" class="favorite-button" type="button">♡ 收藏这个故事</button></article></dialog>
     <script defer src="/analytics.js"></script><script type="module" src="app.js"></script>
   </body>

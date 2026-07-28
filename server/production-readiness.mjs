@@ -4,7 +4,9 @@ export function productionReadiness(config) {
   const issues = [];
   if (config.nodeEnv !== "production") issues.push("NODE_ENV 必须为 production");
   if (!config.databaseConfigured || !config.databasePassword) issues.push("MySQL 生产连接未完整配置");
-  if (!config.deepseekApiKey) issues.push("DEEPSEEK_API_KEY 未配置");
+  if (config.aiStoryGenerationEnabled && !config.deepseekApiKey) {
+    issues.push("AI 故事生成已启用，但 DEEPSEEK_API_KEY 未配置");
+  }
   if (!config.sessionCookieSecure) issues.push("SESSION_COOKIE_SECURE 必须为 true");
   if (!config.accountIdentityConfigured) issues.push("账号身份散列或加密密钥未正确配置");
   if (!config.phoneLoginConfigured) issues.push("PHONE_OTP_SECRET 未正确配置");

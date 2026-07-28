@@ -45,6 +45,7 @@ export const config = {
   nodeEnv: process.env.NODE_ENV || "development",
   host: process.env.HOST || (process.env.NODE_ENV === "production" ? "127.0.0.1" : "0.0.0.0"),
   port: Number.parseInt(process.env.PORT || "4173", 10),
+  aiStoryGenerationEnabled: process.env.AI_STORY_GENERATION_ENABLED === "true",
   deepseekApiKey: process.env.DEEPSEEK_API_KEY || "",
   deepseekModel: process.env.DEEPSEEK_MODEL || "deepseek-v4-flash",
   deepseekBaseUrl: (process.env.DEEPSEEK_BASE_URL || "https://api.deepseek.com").replace(/\/$/, ""),
