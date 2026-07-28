@@ -1,0 +1,139 @@
+name: Deploy production
+
+on:
+  push:
+    branches:
+      - prd
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+  deploy:
+    name: Deploy to production
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    env:
+      PROD_HOST: ${{ secrets.PROD_HOST }}
+      PROD_PORT: ${{ secrets.PROD_PORT }}
+      PROD_USER: ${{ secrets.PROD_USER }}
+      PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
+      PROD_KNOWN_HOSTS: ${{ secrets.PROD_KNOWN_HOSTS }}
+    steps:
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          : "${PROD_HOST:?Missing PROD_HOST secret}"
+          : "${PROD_USER:?Missing PROD_USER secret}"
+          : "${PROD_SSH_KEY:?Missing PROD_SSH_KEY secret}"
+          : "${PROD_KNOWN_HOSTS:?Missing PROD_KNOWN_HOSTS secret}"
+
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$PROD_SSH_KEY" > "$HOME/.ssh/production_key"
+          printf '%s\n' "$PROD_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/production_key" "$HOME/.ssh/known_hosts"
+
+      - name: Deploy requested commit
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          port="${PROD_PORT:-22}"
+
+          ssh \
+            -i "$HOME/.ssh/production_key" \
+            -p "$port" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
+            "$PROD_USER@$PROD_HOST" \
+            "bash -s -- '$GITHUB_SHA'" <<'REMOTE_SCRIPT'
+          set -Eeuo pipefail
+
+          readonly app_dir="/var/www/kids-learning-games"
+          readonly env_file="/etc/playmori/playmori.env"
+          readonly requested_sha="$1"
+
+          if [[ ! "$requested_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Invalid commit SHA: $requested_sha" >&2
+            exit 1
+          fi
+
+          cd "$app_dir"
+
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "Production worktree is not clean; refusing to overwrite local changes." >&2
+            git status --short
+            exit 1
+          fi
+
+          git fetch --prune origin prd
+
+          if ! git merge-base --is-ancestor "$requested_sha" origin/prd; then
+            echo "Requested commit is not on origin/prd." >&2
+            exit 1
+          fi
+
+          git checkout -B prd "$requested_sha"
+          npm ci
+          npm audit --omit=dev
+          npm test
+
+          sudo -u playmori env PLAYMORI_ENV_FILE="$env_file" npm run db:backup
+          sudo -u playmori env PLAYMORI_ENV_FILE="$env_file" npm run db:migrate
+          sudo -u playmori env PLAYMORI_ENV_FILE="$env_file" npm run db:check
+          sudo -u playmori env PLAYMORI_ENV_FILE="$env_file" npm run check:production
+
+          sudo nginx -t
+          sudo systemctl restart playmori
+          sudo systemctl is-active --quiet playmori
+
+          echo "Deployed commit $(git rev-parse HEAD)"
+          REMOTE_SCRIPT
+
+      - name: Verify public health endpoint
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          for attempt in {1..12}; do
+            if curl --fail --silent --show-error \
+              --max-time 10 \
+              https://playmori.online/api/health; then
+              exit 0
+            fi
+
+            if [[ "$attempt" -lt 12 ]]; then
+              sleep 5
+            fi
+          done
+
+          echo "Production health check failed." >&2
+          exit 1
