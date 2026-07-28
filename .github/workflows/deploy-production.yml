@@ -118,7 +118,7 @@ jobs:
           echo "Deployed commit $(git rev-parse HEAD)"
           REMOTE_SCRIPT
 
-      - name: Verify public health endpoint
+      - name: Verify public endpoints
         shell: bash
         run: |
           set -Eeuo pipefail
@@ -126,7 +126,13 @@ jobs:
           for attempt in {1..12}; do
             if curl --fail --silent --show-error \
               --max-time 10 \
-              https://playmori.online/api/health; then
+              https://playmori.online/api/health \
+              > "$RUNNER_TEMP/playmori-health.json" \
+              && curl --fail --silent --show-error \
+                --max-time 10 \
+                --output /dev/null \
+                https://playmori.online/; then
+              cat "$RUNNER_TEMP/playmori-health.json"
               exit 0
             fi
 
@@ -135,5 +141,5 @@ jobs:
             fi
           done
 
-          echo "Production health check failed." >&2
+          echo "Production health or homepage check failed." >&2
           exit 1
