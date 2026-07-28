@@ -17,6 +17,12 @@ test("童趣森林提供五个可解锁故事章节", () => {
   assert.doesNotMatch(html, /故事即将继续/);
 });
 
+test("地图不重复叠加背景中已有的地点卡片", () => {
+  for (const place of ["market", "train", "valley", "stage"]) {
+    assert.doesNotMatch(html, new RegExp(`world-place ${place}-place`));
+  }
+});
+
 test("第二至第五章各包含三项任务和奖励阶段", () => {
   for (const chapter of [2, 3, 4, 5]) {
     for (const task of [0, 1, 2]) {
