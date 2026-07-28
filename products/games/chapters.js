@@ -247,7 +247,7 @@
   }
 
   function closeDialog() {
-    if ("speechSynthesis" in window) speechSynthesis.cancel();
+    window.PlaymoriVoice.cancel();
     dialog.close();
     renderHome();
     $("#forestScene").scrollIntoView({ behavior: "smooth", block: "center" });

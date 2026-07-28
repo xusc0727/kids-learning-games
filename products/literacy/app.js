@@ -25,13 +25,11 @@ const elements = {
 };
 
 function speak(item, includeWord = true) {
-  if (!item || !("speechSynthesis" in globalThis)) return;
-  speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(includeWord ? `${item.character}，${item.word}` : item.character);
-  utterance.lang = "zh-CN";
-  utterance.rate = 0.72;
-  utterance.pitch = 1.05;
-  speechSynthesis.speak(utterance);
+  if (!item) return;
+  window.PlaymoriVoice.speak(includeWord ? `${item.character}，${item.word}` : item.character, {
+    rate: 0.72,
+    pitch: 1.02
+  });
 }
 
 function themeFor(id) { return THEMES.find((theme) => theme.id === id) || THEMES[0]; }

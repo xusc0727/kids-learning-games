@@ -7,7 +7,7 @@
     <meta name="description" content="面向3至6岁儿童的故事化成长游戏世界" />
     <link rel="icon" href="assets/forest/world-background.webp" />
     <title>童趣森林｜一起让成长树开花</title>
-    <link rel="stylesheet" href="home.css?v=20260723-10" />
+    <link rel="stylesheet" href="home.css?v=20260728-1" />
   </head>
   <body>
     <div class="paper-noise" aria-hidden="true"></div>
@@ -42,7 +42,9 @@
 
         <div id="forestScene" class="forest-scene" aria-label="你的童趣森林，目前成长树刚刚发芽">
           <div class="resident" aria-hidden="true"><span class="forest-art art-bear"></span><i>新朋友</i></div>
-          <div class="sprout-guide" aria-hidden="true"><span class="forest-art art-sprout"></span><i>小芽</i></div>
+          <button id="sproutGuide" class="sprout-guide" type="button" aria-label="听听小芽的提醒，继续当前故事" aria-controls="questDialog adventureDialog">
+            <span class="forest-art art-sprout" aria-hidden="true"></span><i aria-hidden="true">小芽</i>
+          </button>
           <div id="decorationLayer" class="decoration-layer" aria-label="孩子摆放的森林装饰"></div>
           <button id="decorationBagButton" class="decoration-bag-button" type="button" aria-label="打开装饰背包">
             <span class="backpack-icon" aria-hidden="true"><i></i></span>
@@ -213,7 +215,8 @@
     </dialog>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
-    <script src="world.js?v=20260723-6"></script>
+    <script src="/products/shared/child-voice.js?v=20260728-1"></script>
+    <script src="world.js?v=20260728-2"></script>
     <script src="chapters.js?v=20260723-6"></script>
     <script src="decorations.js?v=20260723-6"></script>
     <script defer src="/analytics.js"></script>
