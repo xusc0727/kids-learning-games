@@ -4,7 +4,7 @@ import path from "node:path";
 import { config, projectRoot } from "./config.mjs";
 import { createPublicId } from "./account-security.mjs";
 
-const VERSION = "2026-07-28";
+const VERSION = "2026-07-29";
 
 function fileHash(name) {
   return crypto.createHash("sha256").update(fs.readFileSync(path.join(projectRoot, name))).digest("hex");

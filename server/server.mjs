@@ -270,6 +270,7 @@ const server = http.createServer(async (req, res) => {
         json(res, 404, { error: "故事生成功能暂未开放" });
         return;
       }
+      requireSameOrigin(req);
       const ip = requestIp(req);
       if (!checkRateLimit(ip)) {
         json(res, 429, { error: "生成得有点快，请稍后再试" });
