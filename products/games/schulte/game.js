@@ -137,8 +137,14 @@ function chooseNumber(button, number) {
     return;
   }
 
+  const previousHit = elements.grid.querySelector(".number-cell.current-hit");
+  if (previousHit) {
+    previousHit.classList.remove("current-hit", "correct-now");
+    previousHit.setAttribute("aria-label", `数字 ${previousHit.dataset.number}，已完成`);
+  }
   button.disabled = true;
-  button.classList.add("found", "correct-now");
+  button.classList.add("current-hit", "correct-now");
+  button.setAttribute("aria-label", `数字 ${number}，已完成，最近点击`);
   nextNumber += 1;
   elements.progress.textContent = `${nextNumber - 1} / ${GRID_SIZE}`;
 

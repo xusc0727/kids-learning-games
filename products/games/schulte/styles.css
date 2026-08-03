@@ -103,7 +103,8 @@ td:nth-child(2) { color: var(--green-dark); font-family: Georgia, serif; font-si
 .number-cell { min-width: 0; aspect-ratio: 1; border: 3px solid white; border-radius: 19px 7px; color: #304a3d; background: #fffaf0; box-shadow: 0 5px 0 rgba(75,72,44,.12); font-family: Georgia, "Times New Roman", serif; font-size: clamp(19px, 4.6vw, 34px); font-weight: 700; cursor: pointer; transition: transform .12s, color .2s, background .2s, box-shadow .12s; touch-action: manipulation; }
 .number-cell:hover:not(:disabled) { transform: translateY(-3px); border-color: #fff2bd; }
 .number-cell:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 rgba(75,72,44,.12); }
-.number-cell.found { color: rgba(45,79,59,.45); border-color: #e2ebcf; background: #cfe2bd; box-shadow: inset 0 0 0 2px rgba(255,255,255,.45); }
+.number-cell:disabled { opacity: 1; color: #304a3d; background: #fffaf0; cursor: default; }
+.number-cell.current-hit { border-color: #d94f3e; box-shadow: inset 0 0 0 2px #fffaf0, 0 5px 0 rgba(123,55,43,.18); }
 .number-cell.correct-now { animation: correct .35s cubic-bezier(.2,1.45,.4,1); }
 .number-cell.wrong { animation: shake .35s ease; border-color: #e98768; background: #fff0d4; }
 .game-feedback { min-height: 34px; margin: 18px auto 0; color: #5f7064; font-family: "Hiragino Sans GB", "PingFang SC", sans-serif; font-size: 12px; text-align: center; }
