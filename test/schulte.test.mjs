@@ -18,6 +18,7 @@ const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "
 const gameCenterHtml = fs.readFileSync(path.join(projectRoot, "products/games/index.html"), "utf8");
 const gameHtml = fs.readFileSync(path.join(projectRoot, "products/games/schulte/index.html"), "utf8");
 const gameScript = fs.readFileSync(path.join(projectRoot, "products/games/schulte/game.js"), "utf8");
+const gameStyles = fs.readFileSync(path.join(projectRoot, "products/games/schulte/styles.css"), "utf8");
 
 test("游戏中心包含舒尔特方格入口", () => {
   assert.match(gameCenterHtml, /href="schulte\/"/);
@@ -38,6 +39,15 @@ test("页面提供 6 乘 6 棋盘、计时和历史趋势", () => {
   assert.match(gameHtml, /id="trendChart"/);
   assert.match(gameScript, /playmori-schulte-history-v1/);
   assert.match(gameScript, /visibilitychange/);
+});
+
+test("已点数字保持原样且红框只跟随最近一次正确点击", () => {
+  assert.doesNotMatch(gameScript, /classList\.add\("found"/);
+  assert.match(gameScript, /querySelector\("\.number-cell\.current-hit"\)/);
+  assert.match(gameScript, /classList\.remove\("current-hit", "correct-now"\)/);
+  assert.match(gameScript, /classList\.add\("current-hit", "correct-now"\)/);
+  assert.match(gameStyles, /\.number-cell:disabled\s*\{[^}]*opacity:\s*1/);
+  assert.match(gameStyles, /\.number-cell\.current-hit\s*\{[^}]*border-color:\s*#d94f3e/);
 });
 
 test("历史记录只保留最近 100 次并忽略损坏数据", () => {
