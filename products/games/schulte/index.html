@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#e7ddb1" />
+    <meta name="description" content="6乘6数字舒尔特方格，按顺序寻找1至36并记录每次完成时间" />
+    <title>舒尔特方格｜童趣森林</title>
+    <link rel="stylesheet" href="styles.css?v=20260803-3" />
+  </head>
+  <body>
+    <div class="paper-grain" aria-hidden="true"></div>
+    <main class="schulte-app">
+      <section id="welcomeScreen" class="screen welcome-screen is-active" aria-labelledby="welcomeTitle">
+        <header class="welcome-nav">
+          <a class="back-link" href="../">‹ 返回游戏中心</a>
+          <span class="rule-chip">6 × 6</span>
+        </header>
+
+        <div class="welcome-layout">
+          <div class="welcome-copy">
+            <p class="kicker">从 1 找到 36</p>
+            <h1 id="welcomeTitle">舒尔特<br /><em>方格</em></h1>
+            <p class="intro">数字已经全部打乱。睁大眼睛，从 1 开始，按照顺序一个一个点到 36。</p>
+            <button id="startButton" class="primary-button" type="button"><span>开始挑战</span><i>→</i></button>
+            <p class="gentle-note">完成一局后才会记入历史，中途退出不会留下成绩。</p>
+          </div>
+
+          <div class="preview-card" aria-hidden="true">
+            <div class="preview-target"><small>先找</small><b>1</b></div>
+            <div class="preview-grid"><i>26</i><i>1</i><i>14</i><i>35</i><i>8</i><i>21</i><i>31</i><i>18</i><i>5</i></div>
+            <span class="pencil-line"></span>
+          </div>
+        </div>
+
+        <section class="history-card" aria-labelledby="historyTitle">
+          <div class="history-heading">
+            <div><p>每次完整挑战都会留在这里</p><h2 id="historyTitle">我的速度记录</h2></div>
+            <button id="clearHistoryButton" class="text-button" type="button" hidden>清空记录</button>
+          </div>
+
+          <div id="historyEmpty" class="history-empty">
+            <span>1 — 36</span>
+            <p>还没有完成记录，玩过第一局后就能看到变化。</p>
+          </div>
+
+          <div id="historyContent" hidden>
+            <div class="summary-grid">
+              <article><small>第一次</small><b id="firstTime">—</b></article>
+              <article class="latest"><small>最近一次</small><b id="latestTime">—</b></article>
+              <article class="best"><small>最快纪录</small><b id="bestTime">—</b></article>
+            </div>
+
+            <figure class="trend-card">
+              <figcaption><b>最近 10 次</b><span>线条越往下，完成得越快</span></figcaption>
+              <svg id="trendChart" viewBox="0 0 640 190" role="img" aria-label="最近十次完成时间趋势"></svg>
+            </figure>
+
+            <div class="history-list-wrap">
+              <table>
+                <thead><tr><th>完成时间</th><th>花费</th><th>和上次相比</th></tr></thead>
+                <tbody id="historyList"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="gameScreen" class="screen game-screen" aria-labelledby="gameTitle">
+        <header class="game-header">
+          <button id="gameHomeButton" class="round-button" type="button" aria-label="结束本局并返回首页">‹</button>
+          <div class="game-title"><small>6 × 6 数字挑战</small><h1 id="gameTitle">舒尔特方格</h1></div>
+          <div class="timer" aria-label="本局已经花费的时间"><small>用时</small><b id="timerText">0.0</b><i>秒</i></div>
+        </header>
+
+        <div class="target-strip" aria-live="polite">
+          <span>现在请找</span>
+          <b id="targetNumber">1</b>
+          <small id="progressText">0 / 36</small>
+        </div>
+
+        <div id="numberGrid" class="number-grid" role="grid" aria-label="六乘六舒尔特数字方格"></div>
+        <p id="gameFeedback" class="game-feedback" role="status" aria-live="polite">从 1 开始，按顺序点击数字。</p>
+      </section>
+    </main>
+
+    <div id="completeOverlay" class="complete-overlay" role="dialog" aria-modal="true" aria-labelledby="completeTitle" hidden>
+      <section class="complete-card">
+        <p class="kicker">1 到 36 全部完成</p>
+        <h2 id="completeTitle">找到啦！</h2>
+        <div class="finish-time"><b id="finishTime">—</b><span>秒</span></div>
+        <p id="finishMessage">这次的完成时间已经记下来了。</p>
+        <div class="complete-actions">
+          <button id="playAgainButton" class="primary-button" type="button"><span>再来一次</span><i>↻</i></button>
+          <button id="viewHistoryButton" class="secondary-button" type="button">查看我的记录</button>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="game.js?v=20260803-2"></script>
+    <script defer src="/analytics.js"></script>
+  </body>
+</html>
